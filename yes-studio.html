@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YES STUDIO — AI-Powered Brand & Web Agency</title>
+<meta name="description" content="Bay Area AI-powered brand and web agency. Custom Shopify & web development, brand identity, AI content systems. 2-week delivery.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── VERCEL DESIGN TOKENS ── */
+:root {
+  --ink: #171717;
+  --body-color: #4d4d4d;
+  --mute: #888888;
+  --hairline: #ebebeb;
+  --hairline-strong: #a1a1a1;
+  --canvas: #ffffff;
+  --canvas-soft: #fafafa;
+  --canvas-soft-2: #f5f5f5;
+  --link: #0070f3;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+  --r-pill: 100px;
+  --shadow-1: 0 0 0 1px rgba(0,0,0,0.08);
+  --shadow-2: 0 1px 1px rgba(0,0,0,0.03),0 2px 2px rgba(0,0,0,0.06),0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-3: 0 2px 2px rgba(0,0,0,0.06),0 8px 8px -8px rgba(0,0,0,0.08),0 0 0 1px rgba(0,0,0,0.06);
+  --shadow-4: 0 2px 2px rgba(0,0,0,0.06),0 8px 16px -4px rgba(0,0,0,0.08),0 0 0 1px rgba(0,0,0,0.06);
+  --f: 'Inter', system-ui, -apple-system, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--f); background: var(--canvas-soft); color: var(--ink); font-size: 16px; line-height: 24px; -webkit-font-smoothing: antialiased; }
+.container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--hairline);
+  height: 60px;
+}
+.nav-inner { height: 60px; display: flex; align-items: center; gap: 0; }
+.nav-logo { display: flex; align-items: center; gap: 9px; text-decoration: none; margin-right: 36px; flex-shrink: 0; }
+.nav-logo-mark { width: 24px; height: 24px; background: var(--ink); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+.nav-logo-mark svg { width: 13px; height: 13px; fill: white; }
+.nav-logo-name { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.3px; }
+.nav-links { display: flex; gap: 2px; flex: 1; }
+.nav-link { font-size: 13px; color: var(--body-color); padding: 6px 11px; border-radius: var(--r-pill); text-decoration: none; font-weight: 400; letter-spacing: -0.2px; transition: color .15s, background .15s; cursor: pointer; }
+.nav-link:hover { color: var(--ink); background: var(--canvas-soft-2); }
+.nav-right { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+.btn-lang { font-size: 12px; font-weight: 500; padding: 0 10px; height: 28px; border-radius: var(--r-sm); border: 1px solid var(--hairline); background: var(--canvas); color: var(--body-color); cursor: pointer; font-family: var(--f); letter-spacing: 0; transition: border-color .15s, color .15s; }
+.btn-lang:hover, .btn-lang.active { border-color: var(--hairline-strong); color: var(--ink); }
+.btn-nav { font-size: 13px; font-weight: 500; padding: 0 12px; height: 28px; border-radius: var(--r-sm); border: 1px solid var(--hairline); background: var(--canvas); color: var(--ink); cursor: pointer; font-family: var(--f); letter-spacing: -0.2px; transition: border-color .15s; }
+.btn-nav:hover { border-color: var(--hairline-strong); }
+.btn-nav-cta { background: var(--ink); color: white; border-color: var(--ink); }
+.btn-nav-cta:hover { background: #2a2a2a; border-color: #2a2a2a; }
+
+/* ── HERO ── */
+.hero { background: var(--canvas); padding: 88px 24px 80px; text-align: center; position: relative; overflow: hidden; }
+.hero-mesh { position: absolute; inset: 0; pointer-events: none; }
+.hero-mesh svg { width: 100%; height: 100%; position: absolute; inset: 0; opacity: 0.48; }
+.hero-content { position: relative; z-index: 1; }
+.hero-banner {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--canvas-soft); border: 1px solid var(--hairline);
+  border-radius: var(--r-pill); padding: 4px 14px 4px 6px;
+  margin-bottom: 30px; font-size: 13px; color: var(--body-color);
+  letter-spacing: -0.2px; cursor: default;
+}
+.hero-badge { background: var(--ink); color: white; font-size: 11px; font-weight: 500; padding: 2px 10px; border-radius: var(--r-pill); letter-spacing: 0; }
+.hero-h1 { font-size: 52px; font-weight: 600; color: var(--ink); line-height: 1.0; letter-spacing: -2.6px; margin-bottom: 20px; }
+.hero-sub { font-size: 18px; color: var(--body-color); line-height: 1.65; max-width: 500px; margin: 0 auto 34px; font-weight: 400; }
+.hero-ctas { display: flex; gap: 10px; justify-content: center; margin-bottom: 56px; }
+.btn-primary { background: var(--ink); color: white; font-size: 16px; font-weight: 500; padding: 0 24px; height: 46px; border-radius: var(--r-pill); border: none; cursor: pointer; font-family: var(--f); letter-spacing: -0.2px; transition: background .15s; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-primary:hover { background: #2a2a2a; }
+.btn-secondary { background: var(--canvas); color: var(--ink); font-size: 16px; font-weight: 500; padding: 0 24px; height: 46px; border-radius: var(--r-pill); border: 1px solid var(--hairline); cursor: pointer; font-family: var(--f); letter-spacing: -0.2px; box-shadow: var(--shadow-2); transition: border-color .15s; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-secondary:hover { border-color: var(--hairline-strong); }
+.hero-stats { display: flex; justify-content: center; border-top: 1px solid var(--hairline); padding-top: 36px; }
+.hero-stat { padding: 0 36px; text-align: center; border-right: 1px solid var(--hairline); }
+.hero-stat:last-child { border-right: none; }
+.stat-num { font-size: 28px; font-weight: 600; color: var(--ink); letter-spacing: -1.4px; line-height: 1; margin-bottom: 6px; }
+.stat-label { font-family: var(--mono); font-size: 11px; color: var(--mute); }
+
+/* ── LOGO STRIP ── */
+.logo-strip { background: var(--canvas); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); padding: 18px 0; }
+.logo-strip-inner { display: flex; align-items: center; gap: 0; }
+.logo-strip-label { font-family: var(--mono); font-size: 11px; color: var(--mute); white-space: nowrap; margin-right: 32px; flex-shrink: 0; }
+.logo-list { display: flex; gap: 32px; align-items: center; flex-wrap: wrap; }
+.logo-item { font-size: 13px; font-weight: 500; color: #d0d0d0; letter-spacing: -0.3px; }
+
+/* ── SECTION HEADER ── */
+.eyebrow { font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 10px; }
+.section-h { font-size: 34px; font-weight: 600; color: var(--ink); letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 10px; }
+.section-sub { font-size: 17px; color: var(--body-color); line-height: 1.65; max-width: 460px; font-weight: 400; }
+.section { padding: 80px 0; }
+.section-sm { padding: 56px 0; }
+
+/* ── PAIN POINTS ── */
+.pain-band { background: var(--canvas-soft); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+.pain-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 32px; }
+.card { background: var(--canvas); border-radius: var(--r-md); border: 1px solid var(--hairline); padding: 24px 22px; box-shadow: var(--shadow-2); transition: box-shadow .2s, transform .2s; }
+.card:hover { box-shadow: var(--shadow-4); transform: translateY(-2px); }
+.card-eyebrow { font-family: var(--mono); font-size: 10px; color: var(--mute); margin-bottom: 10px; }
+.card-title { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.3; }
+.card-body { font-size: 13px; color: var(--body-color); line-height: 1.65; }
+
+/* ── SERVICES ── */
+.svc-band { background: var(--canvas); border-top: 1px solid var(--hairline); }
+.tab-row { display: flex; gap: 6px; margin: 28px 0 24px; flex-wrap: wrap; }
+.tab-pill { font-size: 13px; color: var(--body-color); padding: 0 16px; height: 34px; border-radius: 64px; border: 1px solid var(--hairline); background: var(--canvas); cursor: pointer; font-family: var(--f); font-weight: 400; letter-spacing: -0.2px; transition: all .15s; white-space: nowrap; }
+.tab-pill:hover { color: var(--ink); border-color: var(--hairline-strong); }
+.tab-pill.active { background: var(--ink); color: white; border-color: var(--ink); font-weight: 500; }
+.svc-panel { display: none; }
+.svc-panel.active { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.svc-card { background: var(--canvas-soft); border-radius: var(--r-md); border: 1px solid var(--hairline); padding: 22px 20px; box-shadow: var(--shadow-2); transition: box-shadow .2s, transform .2s; }
+.svc-card:hover { box-shadow: var(--shadow-4); transform: translateY(-2px); }
+.svc-tag { display: inline-block; margin-top: 14px; font-size: 11px; background: var(--canvas-soft-2); color: var(--body-color); padding: 3px 10px; border-radius: var(--r-pill); border: 1px solid var(--hairline); font-family: var(--mono); }
+
+/* ── AI DEMO ── */
+.demo-band { background: var(--ink); padding: 80px 0; position: relative; overflow: hidden; }
+.demo-mesh { position: absolute; inset: 0; pointer-events: none; opacity: 0.3; }
+.demo-mesh svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.demo-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+.demo-left .eyebrow { color: #555; }
+.demo-left .section-h { color: white; }
+.demo-left .section-sub { color: #888; max-width: 360px; margin-top: 10px; }
+.demo-examples { display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+.demo-ex { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-md); padding: 20px 20px; }
+.demo-ex-label { font-family: var(--mono); font-size: 10px; color: #555; margin-bottom: 8px; }
+.demo-ex-title { font-size: 14px; font-weight: 600; color: white; letter-spacing: -0.4px; margin-bottom: 6px; }
+.demo-ex-body { font-size: 12px; color: #666; line-height: 1.6; }
+.demo-preview { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-lg); padding: 24px; }
+.demo-preview-label { font-family: var(--mono); font-size: 10px; color: #555; margin-bottom: 16px; }
+.demo-preview-title { font-size: 13px; font-weight: 600; color: white; letter-spacing: -0.3px; margin-bottom: 14px; }
+.demo-swatches { display: flex; gap: 8px; margin-bottom: 16px; }
+.demo-swatch { border-radius: 6px; }
+.demo-personality { font-size: 12px; color: #777; line-height: 1.65; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: var(--r-sm); padding: 12px 14px; margin-bottom: 16px; }
+.demo-copy-preview { font-size: 12px; color: #666; line-height: 1.7; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 14px; }
+.demo-copy-preview strong { color: #aaa; font-weight: 500; display: block; margin-bottom: 3px; }
+.demo-cta-note { margin-top: 16px; font-size: 12px; color: #444; font-family: var(--mono); }
+
+/* ── CASES ── */
+.cases-band { background: var(--canvas-soft); border-top: 1px solid var(--hairline); }
+.cases-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin-top: 32px; }
+.case-card { background: var(--canvas); border-radius: var(--r-md); border: 1px solid var(--hairline); overflow: hidden; box-shadow: var(--shadow-2); transition: box-shadow .2s, transform .2s; }
+.case-card:hover { box-shadow: var(--shadow-4); transform: translateY(-2px); }
+.case-thumb { height: 120px; position: relative; overflow: hidden; }
+.case-thumb-label { position: absolute; top: 10px; left: 10px; font-family: var(--mono); font-size: 10px; background: rgba(255,255,255,0.92); color: var(--body-color); padding: 3px 9px; border-radius: var(--r-pill); border: 1px solid var(--hairline); }
+.case-thumb-brand { position: absolute; bottom: 14px; left: 14px; font-size: 20px; font-weight: 600; letter-spacing: -0.8px; opacity: 0.28; }
+.thumb-dot { position: absolute; inset: 0; opacity: 0.08; background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px); background-size: 16px 16px; }
+.case-body { padding: 16px 16px 18px; }
+.case-title { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.4px; margin-bottom: 6px; line-height: 1.3; }
+.case-desc { font-size: 12px; color: var(--body-color); line-height: 1.6; margin-bottom: 14px; }
+.case-metrics { display: flex; gap: 14px; flex-wrap: wrap; }
+.case-metric { font-size: 11px; color: var(--mute); font-family: var(--mono); }
+.case-metric strong { color: var(--ink); font-weight: 600; font-family: var(--f); }
+
+/* ── PROCESS ── */
+.process-band { background: var(--canvas); border-top: 1px solid var(--hairline); }
+.process-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; margin-top: 32px; background: var(--hairline); border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--hairline); }
+.process-step { background: var(--canvas); padding: 26px 22px; }
+.process-num { font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 14px; }
+.process-title { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.5px; margin-bottom: 8px; line-height: 1.3; }
+.process-body { font-size: 12px; color: var(--body-color); line-height: 1.65; }
+
+/* ── CLOSE CTA ── */
+.close-band { background: var(--ink); padding: 88px 24px; text-align: center; position: relative; overflow: hidden; }
+.close-mesh { position: absolute; inset: 0; pointer-events: none; opacity: 0.28; }
+.close-mesh svg { width: 100%; height: 100%; position: absolute; inset: 0; }
+.close-inner { position: relative; z-index: 1; }
+.close-h { font-size: 42px; font-weight: 600; color: white; letter-spacing: -2.1px; line-height: 1.05; margin-bottom: 14px; }
+.close-sub { font-size: 17px; color: #666; line-height: 1.65; margin-bottom: 34px; }
+.close-ctas { display: flex; gap: 10px; justify-content: center; margin-bottom: 32px; }
+.btn-close-primary { background: white; color: var(--ink); font-size: 16px; font-weight: 500; padding: 0 26px; height: 46px; border-radius: var(--r-pill); border: none; cursor: pointer; font-family: var(--f); letter-spacing: -0.2px; transition: opacity .15s; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-close-primary:hover { opacity: 0.88; }
+.btn-close-ghost { background: transparent; color: white; font-size: 16px; font-weight: 500; padding: 0 26px; height: 46px; border-radius: var(--r-pill); border: 1px solid rgba(255,255,255,0.18); cursor: pointer; font-family: var(--f); letter-spacing: -0.2px; transition: border-color .15s; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-close-ghost:hover { border-color: rgba(255,255,255,0.38); }
+.close-trust { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+.trust-item { font-family: var(--mono); font-size: 11px; color: #444; display: flex; align-items: center; gap: 7px; }
+.trust-dot { width: 5px; height: 5px; border-radius: 50%; background: #444; flex-shrink: 0; }
+
+/* ── FOOTER ── */
+footer { background: var(--canvas); border-top: 1px solid var(--hairline); padding: 52px 0 32px; }
+.footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 44px; }
+.footer-brand { font-size: 14px; font-weight: 600; color: var(--ink); letter-spacing: -0.3px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.footer-brand-mark { width: 20px; height: 20px; background: var(--ink); border-radius: 3px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.footer-brand-mark svg { width: 11px; height: 11px; fill: white; }
+.footer-desc { font-size: 13px; color: var(--body-color); line-height: 1.65; max-width: 210px; }
+.footer-col-label { font-family: var(--mono); font-size: 11px; color: var(--mute); margin-bottom: 14px; }
+.footer-links { display: flex; flex-direction: column; gap: 9px; }
+.footer-link { font-size: 13px; color: var(--body-color); text-decoration: none; letter-spacing: -0.2px; transition: color .15s; cursor: pointer; }
+.footer-link:hover { color: var(--ink); }
+.footer-bottom { border-top: 1px solid var(--hairline); padding-top: 22px; display: flex; justify-content: space-between; align-items: center; }
+.footer-legal { font-size: 12px; color: var(--mute); }
+.footer-loc { font-family: var(--mono); font-size: 11px; color: var(--mute); display: flex; align-items: center; gap: 7px; }
+.footer-live { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+.fu1 { animation: fadeUp .55s ease both; }
+.fu2 { animation: fadeUp .55s .1s ease both; }
+.fu3 { animation: fadeUp .55s .2s ease both; }
+.fu4 { animation: fadeUp .55s .3s ease both; }
+
+/* ── I18N HIDDEN ── */
+[data-lang] { display: none; }
+[data-lang="en"] { display: inline; }
+.block-lang { display: none; }
+.block-lang.en { display: block; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="container nav-inner">
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-mark"><svg viewBox="0 0 13 13"><polygon points="6.5,1 12.5,12 0.5,12"/></svg></div>
+      <span class="nav-logo-name">YES STUDIO</span>
+    </a>
+    <div class="nav-links">
+      <a class="nav-link" href="#services"><span data-lang="en">Services</span><span data-lang="zh">服务</span></a>
+      <a class="nav-link" href="#demo"><span data-lang="en">AI Demo</span><span data-lang="zh">AI 演示</span></a>
+      <a class="nav-link" href="#cases"><span data-lang="en">Work</span><span data-lang="zh">案例</span></a>
+      <a class="nav-link" href="#process"><span data-lang="en">Process</span><span data-lang="zh">流程</span></a>
+    </div>
+    <div class="nav-right">
+      <button class="btn-lang active" id="lang-en" onclick="setLang('en')">EN</button>
+      <button class="btn-lang" id="lang-zh" onclick="setLang('zh')">中文</button>
+      <a class="btn-nav btn-nav-cta" href="mailto:sukky147@gmail.com">
+        <span data-lang="en">Get in Touch</span><span data-lang="zh">联系我们</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-mesh">
+    <svg viewBox="0 0 1200 560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="g1" cx="18%" cy="28%" r="44%"><stop offset="0%" stop-color="#007cf0" stop-opacity=".8"/><stop offset="100%" stop-color="#007cf0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="g2" cx="48%" cy="18%" r="38%"><stop offset="0%" stop-color="#7928ca" stop-opacity=".65"/><stop offset="100%" stop-color="#7928ca" stop-opacity="0"/></radialGradient>
+        <radialGradient id="g3" cx="80%" cy="32%" r="40%"><stop offset="0%" stop-color="#ff0080" stop-opacity=".58"/><stop offset="100%" stop-color="#ff0080" stop-opacity="0"/></radialGradient>
+        <radialGradient id="g4" cx="12%" cy="70%" r="36%"><stop offset="0%" stop-color="#00dfd8" stop-opacity=".52"/><stop offset="100%" stop-color="#00dfd8" stop-opacity="0"/></radialGradient>
+        <radialGradient id="g5" cx="62%" cy="75%" r="34%"><stop offset="0%" stop-color="#f9cb28" stop-opacity=".42"/><stop offset="100%" stop-color="#f9cb28" stop-opacity="0"/></radialGradient>
+        <radialGradient id="g6" cx="90%" cy="78%" r="28%"><stop offset="0%" stop-color="#ff4d4d" stop-opacity=".38"/><stop offset="100%" stop-color="#ff4d4d" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="1200" height="560" fill="url(#g1)"/>
+      <rect width="1200" height="560" fill="url(#g2)"/>
+      <rect width="1200" height="560" fill="url(#g3)"/>
+      <rect width="1200" height="560" fill="url(#g4)"/>
+      <rect width="1200" height="560" fill="url(#g5)"/>
+      <rect width="1200" height="560" fill="url(#g6)"/>
+    </svg>
+  </div>
+  <div class="hero-content container">
+    <div class="hero-banner fu1">
+      <span class="hero-badge">New</span>
+      <span data-lang="en">AI-powered brand systems · 2-week delivery</span>
+      <span data-lang="zh">AI 驱动品牌系统 · 2 周交付</span>
+    </div>
+    <h1 class="hero-h1 fu2">
+      <span data-lang="en">Brands built to<br>convert.</span>
+      <span data-lang="zh">让品牌真正<br>产生转化。</span>
+    </h1>
+    <p class="hero-sub fu3">
+      <span data-lang="en">Bay Area design agency for cross-border e-commerce. AI-accelerated, brand-differentiated, built to last.</span>
+      <span data-lang="zh">湾区跨境电商品牌设计 Agency。AI 提速，差异化品牌，长期可维护。</span>
+    </p>
+    <div class="hero-ctas fu4">
+      <a class="btn-primary" href="mailto:sukky147@gmail.com">
+        <span data-lang="en">Start a Project</span>
+        <span data-lang="zh">开始合作</span>
+      </a>
+      <a class="btn-secondary" href="#demo">
+        <span data-lang="en">See AI Demo →</span>
+        <span data-lang="zh">体验 AI Demo →</span>
+      </a>
+    </div>
+    <div class="hero-stats fu4">
+      <div class="hero-stat">
+        <div class="stat-num">12d</div>
+        <div class="stat-label"><span data-lang="en">avg. delivery</span><span data-lang="zh">平均交付</span></div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">50+</div>
+        <div class="stat-label"><span data-lang="en">brands shipped</span><span data-lang="zh">品牌上线</span></div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">94%</div>
+        <div class="stat-label"><span data-lang="en">client retention</span><span data-lang="zh">客户留存</span></div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-num">8</div>
+        <div class="stat-label"><span data-lang="en">verticals served</span><span data-lang="zh">行业覆盖</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO STRIP -->
+<div class="logo-strip">
+  <div class="container logo-strip-inner">
+    <div class="logo-strip-label"><span data-lang="en">Trusted by</span><span data-lang="zh">合作品牌</span></div>
+    <div class="logo-list">
+      <div class="logo-item">Luminary Co.</div>
+      <div class="logo-item">Aura Skincare</div>
+      <div class="logo-item">NovaTech</div>
+      <div class="logo-item">CedarHome</div>
+      <div class="logo-item">PureFlow</div>
+      <div class="logo-item">Veldt Apparel</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAIN POINTS -->
+<section class="pain-band section-sm">
+  <div class="container">
+    <div class="eyebrow"><span data-lang="en">Why YES STUDIO</span><span data-lang="zh">为什么选择我们</span></div>
+    <h2 class="section-h">
+      <span data-lang="en">Sound familiar?</span>
+      <span data-lang="zh">这些问题你遇到过吗？</span>
+    </h2>
+    <div class="pain-grid">
+      <div class="card">
+        <div class="card-eyebrow">01 / problem</div>
+        <div class="card-title">
+          <span data-lang="en">Agencies that over-promise, under-deliver.</span>
+          <span data-lang="zh">外包拖慢你的进度</span>
+        </div>
+        <div class="card-body">
+          <span data-lang="en">Slow handoffs, high revision costs, no documentation. We ship in 2 weeks with full handover training.</span>
+          <span data-lang="zh">交付慢、沟通成本高、上线后没人维护。我们 2 周交付，含完整文档和培训。</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow">02 / problem</div>
+        <div class="card-title">
+          <span data-lang="en">Your store looks like everyone else's.</span>
+          <span data-lang="zh">独立站撞脸，没有记忆点</span>
+        </div>
+        <div class="card-body">
+          <span data-lang="en">Template stores have no brand memory. Every project starts from strategy — no copy-paste design.</span>
+          <span data-lang="zh">模板站没差异化，转化率上不去。每个项目都从品牌策略出发，拒绝复制粘贴。</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-eyebrow">03 / problem</div>
+        <div class="card-title">
+          <span data-lang="en">AI hype with no real workflow.</span>
+          <span data-lang="zh">不知道 AI 从哪里切入</span>
+        </div>
+        <div class="card-body">
+          <span data-lang="en">Everyone talks about AI. We actually build it into your brand system — content, SEO, ops — from day one.</span>
+          <span data-lang="zh">听说 AI 能降本增效，但不知从何下手。我们把 AI 工具链直接内置到交付物里。</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="svc-band section" id="services">
+  <div class="container">
+    <div class="eyebrow"><span data-lang="en">Services</span><span data-lang="zh">服务</span></div>
+    <h2 class="section-h">
+      <span data-lang="en">Modular. Scalable. Yours.</span>
+      <span data-lang="zh">按需选择，模块可扩展。</span>
+    </h2>
+    <div class="tab-row">
+      <button class="tab-pill active" onclick="switchTab(this,'svc-launch')">
+        <span data-lang="en">Store Launch</span><span data-lang="zh">独立站从 0 到 1</span>
+      </button>
+      <button class="tab-pill" onclick="switchTab(this,'svc-brand')">
+        <span data-lang="en">Brand Upgrade</span><span data-lang="zh">品牌升级改造</span>
+      </button>
+      <button class="tab-pill" onclick="switchTab(this,'svc-ai')">
+        <span data-lang="en">AI Content System</span><span data-lang="zh">AI 内容系统</span>
+      </button>
+    </div>
+    <div class="svc-panel active" id="svc-launch">
+      <div class="svc-card">
+        <div class="card-eyebrow">01 / strategy</div>
+        <div class="card-title"><span data-lang="en">Brand Positioning</span><span data-lang="zh">品牌定位 & 竞品分析</span></div>
+        <div class="card-body"><span data-lang="en">Target audience, differentiation strategy, competitive research. The foundation everything else is built on.</span><span data-lang="zh">明确目标受众、差异化定位、竞品研究，为整个项目奠定基础。</span></div>
+        <span class="svc-tag">3–5 days</span>
+      </div>
+      <div class="svc-card">
+        <div class="card-eyebrow">02 / build</div>
+        <div class="card-title"><span data-lang="en">UI Design & Development</span><span data-lang="zh">UI 设计 & 开发</span></div>
+        <div class="card-body"><span data-lang="en">Custom design, not templates. Shopify or Next.js, SEO-structured, payment and logistics integrated.</span><span data-lang="zh">定制设计，非模板。Shopify / Next.js 开发，SEO 友好，支付物流集成。</span></div>
+        <span class="svc-tag">7–10 days</span>
+      </div>
+      <div class="svc-card">
+        <div class="card-eyebrow">03 / handoff</div>
+        <div class="card-title"><span data-lang="en">Launch & Handover</span><span data-lang="zh">上线 & 交接培训</span></div>
+        <div class="card-body"><span data-lang="en">Full documentation, team training, 30-day maintenance window. Your team runs it independently.</span><span data-lang="zh">完整文档、操作培训、30 天维护窗口，确保团队能独立运营。</span></div>
+        <span class="svc-tag">2 days</span>
+      </div>
+    </div>
+    <div class="svc-panel" id="svc-brand">
+      <div class="svc-card">
+        <div class="card-eyebrow">01 / identity</div>
+        <div class="card-title"><span data-lang="en">VI System Rebuild</span><span data-lang="zh">VI 系统重建</span></div>
+        <div class="card-body"><span data-lang="en">Logo, color, typography, graphic language — full identity upgrade with a brand guideline document.</span><span data-lang="zh">Logo、配色、字体、图形语言全套升级，输出品牌规范手册。</span></div>
+        <span class="svc-tag">5–7 days</span>
+      </div>
+      <div class="svc-card">
+        <div class="card-eyebrow">02 / redesign</div>
+        <div class="card-title"><span data-lang="en">Store Redesign</span><span data-lang="zh">独立站视觉重设计</span></div>
+        <div class="card-body"><span data-lang="en">Full visual overhaul based on new brand system. SEO equity preserved, frontend performance optimised.</span><span data-lang="zh">基于新 VI 系统全面改版，保留 SEO 权重，前端性能优化。</span></div>
+        <span class="svc-tag">7–10 days</span>
+      </div>
+      <div class="svc-card">
+        <div class="card-eyebrow">03 / content</div>
+        <div class="card-title"><span data-lang="en">Content Framework</span><span data-lang="zh">内容框架搭建</span></div>
+        <div class="card-body"><span data-lang="en">Homepage copy, product page templates, email templates. A reusable content system with brand voice.</span><span data-lang="zh">主页文案、产品页模版、邮件模版，建立可复用的内容体系。</span></div>
+        <span class="svc-tag">3–5 days</span>
+      </div>
+    </div>
+    <div class="svc-panel" id="svc-ai">
+      <div class="svc-card">
+        <div class="card-eyebrow">01 / content-ai</div>
+        <div class="card-title"><span data-lang="en">AI Product Copy</span><span data-lang="zh">AI 产品描述系统</span></div>
+        <div class="card-body"><span data-lang="en">Batch-generate high-converting product descriptions. Multilingual, on-brand, 10× faster than manual.</span><span data-lang="zh">批量生成高转化产品文案，支持多语言，风格与品牌调性一致。</span></div>
+        <span class="svc-tag">10× faster</span>
+      </div>
+      <div class="svc-card">
+        <div class="card-eyebrow">02 / seo-ai</div>
+        <div class="card-title"><span data-lang="en">AI SEO Content Matrix</span><span data-lang="zh">AI SEO 内容矩阵</span></div>
+        <div class="card-body"><span data-lang="en">Keyword mapping, AI-assisted blog generation, internal linking. Organic traffic that compounds over time.</span><span data-lang="zh">关键词规划 + AI 辅助博客生成 + 内链结构，持续引入自然流量。</span></div>
+        <span class="svc-tag">Long-term growth</span>
+      </div>
+      <div class="svc-card">
+        <div class="card-eyebrow">03 / ops-ai</div>
+        <div class="card-title"><span data-lang="en">AI Ops Workflow</span><span data-lang="zh">AI 运营工作流</span></div>
+        <div class="card-body"><span data-lang="en">Email automation, customer service knowledge base, social content calendar. AI cuts your ops cost.</span><span data-lang="zh">邮件营销自动化、客服知识库、社媒内容日历，AI 降低人力成本。</span></div>
+        <span class="svc-tag">20+ brands</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AI DEMO -->
+<section class="demo-band" id="demo">
+  <div class="demo-mesh">
+    <svg viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="dg1" cx="10%" cy="50%" r="50%"><stop offset="0%" stop-color="#007cf0" stop-opacity=".6"/><stop offset="100%" stop-color="#007cf0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="dg2" cx="88%" cy="28%" r="45%"><stop offset="0%" stop-color="#7928ca" stop-opacity=".5"/><stop offset="100%" stop-color="#7928ca" stop-opacity="0"/></radialGradient>
+        <radialGradient id="dg3" cx="58%" cy="82%" r="40%"><stop offset="0%" stop-color="#ff0080" stop-opacity=".38"/><stop offset="100%" stop-color="#ff0080" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="1200" height="500" fill="url(#dg1)"/>
+      <rect width="1200" height="500" fill="url(#dg2)"/>
+      <rect width="1200" height="500" fill="url(#dg3)"/>
+    </svg>
+  </div>
+  <div class="container demo-inner">
+    <div class="demo-left">
+      <div class="eyebrow">AI Demo</div>
+      <h2 class="section-h">
+        <span data-lang="en">See the work<br>before you commit.</span>
+        <span data-lang="zh">合作之前，先感受<br>交付质量。</span>
+      </h2>
+      <p class="section-sub">
+        <span data-lang="en">Two live examples of what our AI brand system produces. The real thing ships even better.</span>
+        <span data-lang="zh">两个真实 AI 输出示例。正式交付的质量只会更好。</span>
+      </p>
+      <div class="demo-examples">
+        <div class="demo-ex">
+          <div class="demo-ex-label">Example A · Brand Identity</div>
+          <div class="demo-ex-title"><span data-lang="en">Aura Skincare — Brand Direction</span><span data-lang="zh">Aura 护肤 — 品牌方向</span></div>
+          <div class="demo-ex-body"><span data-lang="en">Input: skincare brand, keywords "clean, minimal, science-backed" → AI generated palette, personality, voice.</span><span data-lang="zh">输入：护肤品牌，关键词"干净、极简、科学背书" → AI 生成配色、调性、品牌个性。</span></div>
+        </div>
+        <div class="demo-ex">
+          <div class="demo-ex-label">Example B · Landing Copy</div>
+          <div class="demo-ex-title"><span data-lang="en">CedarHome — Homepage Copy</span><span data-lang="zh">CedarHome — 首页文案</span></div>
+          <div class="demo-ex-body"><span data-lang="en">Input: homeware brand, target audience "urban professionals 25–35" → AI generated full homepage copy framework.</span><span data-lang="zh">输入：家居品牌，目标用户"25-35 岁都市白领" → AI 生成完整首页文案框架。</span></div>
+        </div>
+      </div>
+      <div class="demo-cta-note">
+        <span data-lang="en">Want to try with your brand? → </span>
+        <span data-lang="zh">想用你的品牌试试？→ </span>
+        <a href="mailto:sukky147@gmail.com" style="color:#555;text-decoration:underline;">sukky147@gmail.com</a>
+      </div>
+    </div>
+    <div class="demo-preview">
+      <div class="demo-preview-label">LIVE OUTPUT PREVIEW</div>
+      <div class="demo-preview-title">Aura Skincare · Brand Identity</div>
+      <div class="demo-swatches">
+        <div class="demo-swatch" style="width:36px;height:36px;background:#e8ddd4;"></div>
+        <div class="demo-swatch" style="width:36px;height:36px;background:#2d2926;"></div>
+        <div class="demo-swatch" style="width:36px;height:36px;background:#8fb5a0;"></div>
+        <div class="demo-swatch" style="width:36px;height:36px;background:#f7f4f0;"></div>
+        <div style="display:flex;flex-direction:column;justify-content:center;margin-left:4px;">
+          <div style="font-family:var(--mono);font-size:9px;color:#444;line-height:1.8;">#E8DDD4 · Warm Sand</div>
+          <div style="font-family:var(--mono);font-size:9px;color:#444;line-height:1.8;">#2D2926 · Deep Earth</div>
+          <div style="font-family:var(--mono);font-size:9px;color:#444;line-height:1.8;">#8FB5A0 · Sage Mist</div>
+        </div>
+      </div>
+      <div class="demo-personality">
+        <span data-lang="en">"Aura speaks with quiet confidence — a brand that doesn't need to shout. The palette draws from earth and botanicals, signaling purity without clinical coldness. Voice is warm, precise, and unhurried."</span>
+        <span data-lang="zh">"Aura 以安静的自信发声——一个不需要大喊大叫的品牌。配色取材于泥土与植物，传达纯净而不失温度。品牌声音温暖、精准、从容。"</span>
+      </div>
+      <div class="demo-copy-preview">
+        <strong><span data-lang="en">CedarHome · Homepage Copy</span><span data-lang="zh">CedarHome · 首页文案</span></strong>
+        <span data-lang="en">
+          <strong>Headline:</strong> Home should feel like you.<br>
+          <strong>Subheadline:</strong> Thoughtfully designed pieces for the way you actually live. No clutter, no compromise.<br>
+          <strong>CTA:</strong> Shop the Collection
+        </span>
+        <span data-lang="zh">
+          <strong>主标题：</strong>家，应该像你一样。<br>
+          <strong>副标题：</strong>为真实生活方式设计的每一件物品。不多余，不将就。<br>
+          <strong>行动按钮：</strong>探索系列
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases-band section" id="cases">
+  <div class="container">
+    <div class="eyebrow"><span data-lang="en">Work</span><span data-lang="zh">案例</span></div>
+    <h2 class="section-h">
+      <span data-lang="en">Results speak.</span>
+      <span data-lang="zh">结果说话。</span>
+    </h2>
+    <div class="cases-grid">
+      <div class="case-card">
+        <div class="case-thumb" style="background:linear-gradient(135deg,#fdf0f8,#f5d9ee);">
+          <div class="thumb-dot"></div>
+          <span class="case-thumb-label">beauty</span>
+          <div class="case-thumb-brand" style="color:#8b3a6b;">Aura</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title"><span data-lang="en">Aura Skincare — Full Launch</span><span data-lang="zh">Aura 护肤 — 品牌从 0 到 1</span></div>
+          <div class="case-desc"><span data-lang="en">Complete brand identity + Shopify build + AI product copy system for a clean-beauty DTC brand.</span><span data-lang="zh">护肤品独立站完整搭建，含 VI 系统、Shopify 开发与 AI 产品文案系统。</span></div>
+          <div class="case-metrics">
+            <div class="case-metric"><strong>11d</strong> <span data-lang="en">delivery</span><span data-lang="zh">交付</span></div>
+            <div class="case-metric"><strong>+38%</strong> CVR</div>
+            <div class="case-metric"><strong>2wk</strong> ROI</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb" style="background:linear-gradient(135deg,#f8f4f0,#ede8e2);">
+          <div class="thumb-dot"></div>
+          <span class="case-thumb-label">homeware</span>
+          <div class="case-thumb-brand" style="color:#5c4a3a;">Cedar</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title"><span data-lang="en">CedarHome — Brand Redesign</span><span data-lang="zh">CedarHome — 品牌升级重设计</span></div>
+          <div class="case-desc"><span data-lang="en">Full VI rebuild + store redesign. SEO equity preserved. Bounce rate down 52%.</span><span data-lang="zh">原有独立站视觉老化，品牌升级 VI + 全站重设计，保留 SEO 权重。</span></div>
+          <div class="case-metrics">
+            <div class="case-metric"><strong>9d</strong> <span data-lang="en">delivery</span><span data-lang="zh">交付</span></div>
+            <div class="case-metric"><strong>-52%</strong> <span data-lang="en">bounce</span><span data-lang="zh">跳出率</span></div>
+            <div class="case-metric"><strong>2.1×</strong> GMV</div>
+          </div>
+        </div>
+      </div>
+      <div class="case-card">
+        <div class="case-thumb" style="background:linear-gradient(135deg,#f0f4ff,#dce8ff);">
+          <div class="thumb-dot"></div>
+          <span class="case-thumb-label">consumer tech</span>
+          <div class="case-thumb-brand" style="color:#2a4a8b;">Nova</div>
+        </div>
+        <div class="case-body">
+          <div class="case-title"><span data-lang="en">NovaTech — AI Content System</span><span data-lang="zh">NovaTech — AI 内容系统</span></div>
+          <div class="case-desc"><span data-lang="en">500+ SKU 3C brand. AI product copy pipeline across 6 languages. 70% cost reduction.</span><span data-lang="zh">500+ SKU 的 3C 品牌，搭建 AI 产品描述流水线，多语言覆盖 6 个市场。</span></div>
+          <div class="case-metrics">
+            <div class="case-metric"><strong>10×</strong> <span data-lang="en">faster</span><span data-lang="zh">效率提升</span></div>
+            <div class="case-metric"><strong>6</strong> <span data-lang="en">languages</span><span data-lang="zh">语言</span></div>
+            <div class="case-metric"><strong>-70%</strong> <span data-lang="en">cost</span><span data-lang="zh">成本</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-band section" id="process">
+  <div class="container">
+    <div class="eyebrow"><span data-lang="en">Process</span><span data-lang="zh">工作流程</span></div>
+    <h2 class="section-h">
+      <span data-lang="en">Transparent. Fast. Predictable.</span>
+      <span data-lang="zh">透明、快速、可预期。</span>
+    </h2>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="process-num">01 / discovery</div>
+        <div class="process-title"><span data-lang="en">Brand Diagnosis</span><span data-lang="zh">品牌诊断</span></div>
+        <div class="process-body"><span data-lang="en">Free 30-min consultation. We map your market, audience, and competitive gap — then scope the project.</span><span data-lang="zh">免费 30 分钟咨询，了解业务现状、目标市场、竞争格局，输出项目 Brief。</span></div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02 / strategy</div>
+        <div class="process-title"><span data-lang="en">Strategy & Design</span><span data-lang="zh">策略 & 设计方案</span></div>
+        <div class="process-body"><span data-lang="en">Design concepts and technical plan delivered within 3 working days. Clear milestones, no surprises.</span><span data-lang="zh">3 个工作日内提交设计稿和技术方案，明确里程碑和交付物清单。</span></div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03 / build</div>
+        <div class="process-title"><span data-lang="en">AI-Accelerated Build</span><span data-lang="zh">AI 加速开发</span></div>
+        <div class="process-body"><span data-lang="en">Design, development, and content in parallel. AI toolchain speeds everything up. Live progress dashboard.</span><span data-lang="zh">设计、开发、内容并行推进，AI 工具链提速，实时共享进度看板。</span></div>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04 / handoff</div>
+        <div class="process-title"><span data-lang="en">Launch & Support</span><span data-lang="zh">上线 & 长期维护</span></div>
+        <div class="process-body"><span data-lang="en">Full docs, team training, 30-day support window. Monthly retainer available for ongoing growth.</span><span data-lang="zh">完整文档 + 团队培训，30 天免费维护窗口，后续可接月度 retainer。</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSE CTA -->
+<section class="close-band">
+  <div class="close-mesh">
+    <svg viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="cg1" cx="22%" cy="50%" r="50%"><stop offset="0%" stop-color="#007cf0" stop-opacity=".5"/><stop offset="100%" stop-color="#007cf0" stop-opacity="0"/></radialGradient>
+        <radialGradient id="cg2" cx="78%" cy="50%" r="50%"><stop offset="0%" stop-color="#7928ca" stop-opacity=".42"/><stop offset="100%" stop-color="#7928ca" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="1200" height="400" fill="url(#cg1)"/>
+      <rect width="1200" height="400" fill="url(#cg2)"/>
+    </svg>
+  </div>
+  <div class="close-inner">
+    <h2 class="close-h">
+      <span data-lang="en">Ready to build your brand<br>that converts?</span>
+      <span data-lang="zh">准备好让品牌真正<br>产生转化了吗？</span>
+    </h2>
+    <p class="close-sub">
+      <span data-lang="en">Free 30-min brand diagnosis. No pitch, no pressure. Bay Area team, bilingual, always responsive.</span>
+      <span data-lang="zh">免费 30 分钟品牌诊断，不收费，不强迫成交。湾区团队，中英双语，随时响应。</span>
+    </p>
+    <div class="close-ctas">
+      <a class="btn-close-primary" href="mailto:sukky147@gmail.com">
+        <span data-lang="en">Start a Conversation</span>
+        <span data-lang="zh">发邮件联系我们</span>
+      </a>
+      <a class="btn-close-ghost" href="#services">
+        <span data-lang="en">View Services</span>
+        <span data-lang="zh">查看服务</span>
+      </a>
+    </div>
+    <div class="close-trust">
+      <div class="trust-item"><div class="trust-dot"></div><span data-lang="en">Bay Area Registered</span><span data-lang="zh">湾区注册</span></div>
+      <div class="trust-item"><div class="trust-dot"></div><span data-lang="en">50+ Brands Delivered</span><span data-lang="zh">50+ 品牌交付</span></div>
+      <div class="trust-item"><div class="trust-dot"></div><span data-lang="en">Bilingual Team</span><span data-lang="zh">中英双语团队</span></div>
+      <div class="trust-item"><div class="trust-dot"></div><span data-lang="en">2-Week Guarantee</span><span data-lang="zh">2 周交付保证</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-brand-mark"><svg viewBox="0 0 13 13"><polygon points="6.5,1 12.5,12 0.5,12"/></svg></div>
+          YES STUDIO
+        </div>
+        <div class="footer-desc">
+          <span data-lang="en">Bay Area AI-powered brand & web agency. Built for cross-border e-commerce.</span>
+          <span data-lang="zh">湾区 AI 驱动品牌设计 Agency，专为跨境电商独立站服务。</span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label"><span data-lang="en">Services</span><span data-lang="zh">服务</span></div>
+        <div class="footer-links">
+          <span class="footer-link"><span data-lang="en">Store Launch</span><span data-lang="zh">独立站从 0 到 1</span></span>
+          <span class="footer-link"><span data-lang="en">Brand Upgrade</span><span data-lang="zh">品牌升级改造</span></span>
+          <span class="footer-link"><span data-lang="en">AI Content System</span><span data-lang="zh">AI 内容系统</span></span>
+          <span class="footer-link"><span data-lang="en">Monthly Retainer</span><span data-lang="zh">月度维护</span></span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label"><span data-lang="en">Studio</span><span data-lang="zh">关于</span></div>
+        <div class="footer-links">
+          <span class="footer-link"><span data-lang="en">Work</span><span data-lang="zh">案例</span></span>
+          <span class="footer-link"><span data-lang="en">Process</span><span data-lang="zh">工作流程</span></span>
+          <span class="footer-link"><span data-lang="en">AI Demo</span><span data-lang="zh">AI 演示</span></span>
+          <span class="footer-link"><span data-lang="en">Blog</span><span data-lang="zh">博客</span></span>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-label"><span data-lang="en">Contact</span><span data-lang="zh">联系</span></div>
+        <div class="footer-links">
+          <a class="footer-link" href="mailto:sukky147@gmail.com">sukky147@gmail.com</a>
+          <span class="footer-link">San Francisco, CA</span>
+          <span class="footer-link">yes-studio.xyz</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">© 2025 YES STUDIO · <span data-lang="en">All rights reserved</span><span data-lang="zh">保留所有权利</span></div>
+      <div class="footer-loc"><div class="footer-live"></div>San Francisco Bay Area</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── LANGUAGE TOGGLE ── */
+function setLang(lang) {
+  document.querySelectorAll('[data-lang]').forEach(el => {
+    el.style.display = el.dataset.lang === lang ? 'inline' : 'none';
+  });
+  document.querySelectorAll('.block-lang').forEach(el => {
+    el.style.display = el.classList.contains(lang) ? 'block' : 'none';
+  });
+  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('lang-zh').classList.toggle('active', lang === 'zh');
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+}
+
+/* ── SERVICES TAB ── */
+function switchTab(btn, panelId) {
+  document.querySelectorAll('.tab-pill').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.svc-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(panelId).classList.add('active');
+}
+
+/* ── INIT ── */
+setLang('en');
+</script>
+</body>
+</html>
