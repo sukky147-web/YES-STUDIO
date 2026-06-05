@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-current-lang="en">
+<html lang="en" data-current-lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,21 +11,22 @@
 <style>:root {
   color-scheme: light;
 
-  /* ── Figma color tokens (light mode) ── */
-  --bg: #F6FBF0;
-  --surface: #ffffff;
-  --surface-2: #eaf4e0;
-  --ink: #091A21;
-  --text: #172D36;
+  /* ── Figma color tokens ── */
+  --bg: #FFFFFF;
+  --surface: #FFFFFF;
+  --surface-2: #F0F0F0;
+  --ink: #1A1A1A;
+  --text: #2D2D2D;
   --muted: #BEBEBE;
-  --line: rgba(9, 26, 33, .10);
-  --line-strong: rgba(9, 26, 33, .20);
-  --accent: #EDFD66;
-  --accent-2: #96A432;
-  --accent-3: #C1E5F5;
-  --nav: rgba(246, 251, 240, .82);
-  --shadow: 0 24px 60px rgba(9, 26, 33, .10);
-  --shadow-soft: 0 10px 28px rgba(9, 26, 33, .07);
+  --line: rgba(26,26,26,.10);
+  --line-strong: rgba(26,26,26,.20);
+  --accent: #FFF84B;
+  --accent-2: #FC6A35;
+  --accent-3: #FF99B8;
+  --accent-4: #87DEEF;
+  --nav: rgba(255,255,255,.92);
+  --shadow: 0 24px 60px rgba(26,26,26,.10);
+  --shadow-soft: 0 10px 28px rgba(26,26,26,.07);
   --radius: 8px;
   --radius-lg: 14px;
 
@@ -62,35 +63,23 @@
   --ls-caps: 1.44px;
 }
 
-[data-theme="dark"] {
-  color-scheme: dark;
-
-  /* ── Figma color tokens (dark mode) ── */
-  --bg: #0A1B22;
-  --surface: #0f2530;
-  --surface-2: #172D36;
-  --ink: #FFFFFF;
-  --text: #F8F8F8;
-  --muted: #BEBEBE;
-  --line: rgba(255, 255, 255, .10);
-  --line-strong: rgba(255, 255, 255, .20);
-  --accent: #EDFD66;
-  --accent-2: #96A432;
-  --accent-3: #C1E5F5;
-  --nav: rgba(10, 27, 34, .82);
-  --shadow: 0 26px 72px rgba(0, 0, 0, .38);
-  --shadow-soft: 0 12px 32px rgba(0, 0, 0, .28);
+/* ── DARK SECTION TOKENS ── */
+:root {
+  --dark-bg: #0A0A0A;
+  --dark-surface: #141414;
+  --dark-surface-2: #1F1F1F;
+  --dark-ink: #FFFFFF;
+  --dark-text: #F8F8F8;
+  --dark-muted: rgba(255,255,255,.35);
+  --dark-line: rgba(255,255,255,.10);
+  --dark-line-strong: rgba(255,255,255,.22);
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
   margin: 0;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--line) 42%, transparent) 1px, transparent 1px),
-    linear-gradient(color-mix(in srgb, var(--line) 42%, transparent) 1px, transparent 1px),
-    var(--bg);
-  background-size: 64px 64px;
+  background: var(--bg);
   color: var(--ink);
   font-family: var(--font);
   font-size: 16px;
@@ -100,13 +89,7 @@ body {
 }
 
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(115deg, rgba(237,253,102,.12), transparent 30%, rgba(193,229,245,.10) 60%, transparent);
-  opacity: .8;
-  z-index: -2;
+  content: none;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -123,89 +106,132 @@ button { font: inherit; }
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.65'/%3E%3C/svg%3E");
 }
 
-.spotlight {
+/* ── CUSTOM CURSOR ── */
+.custom-cursor {
   position: fixed;
-  width: 460px;
-  height: 460px;
-  left: var(--mx, 50%);
-  top: var(--my, 20%);
-  translate: -50% -50%;
+  width: 72px;
+  height: 66px;
   pointer-events: none;
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent), transparent 62%);
-  opacity: .52;
-  transition: opacity .2s ease;
-  z-index: -1;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity .15s ease;
+  transform: translate(-4px, -4px);
+  will-change: left, top;
 }
 
+.custom-cursor.visible { opacity: 1; }
+
+/* ── NAV ── */
 .nav {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 20;
-  border-bottom: 1px solid var(--line);
-  background: var(--nav);
-  backdrop-filter: blur(18px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: transform .35s cubic-bezier(.22,1,.36,1);
 }
 
+.nav.hide { transform: translateY(-100%); }
+
+/* top state — full width, no bg */
 .nav-inner {
-  min-height: 68px;
+  min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  transition: all .35s cubic-bezier(.22,1,.36,1);
 }
 
+/* scrolled state — pill container */
+.nav.scrolled .nav-inner {
+  min-height: 52px;
+  margin: 12px auto;
+  max-width: 860px;
+  width: calc(100% - 48px);
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(10,10,10,.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--dark-line);
+}
+
+.nav.scrolled.nav-light .nav-inner {
+  background: rgba(255,255,255,.92);
+  border-color: var(--line);
+}
+
+/* brand */
 .brand {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   font-weight: 760;
   letter-spacing: -.04em;
+  color: var(--dark-ink);
+  text-decoration: none;
 }
 
 .brand-mark {
   width: 30px;
   height: 30px;
-  border: 1px solid var(--line-strong);
   border-radius: 7px;
   display: grid;
   place-items: center;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--accent);
+  color: var(--dark-bg);
+  border: none;
   transition: transform .35s ease, border-radius .35s ease;
+  flex-shrink: 0;
 }
 
 .brand:hover .brand-mark { transform: rotate(8deg) scale(1.04); border-radius: 50%; }
 .brand-mark span { font-size: 12px; font-family: var(--mono); font-weight: 700; }
 
+/* nav links pill wrapper */
 .nav-links {
   display: flex;
   align-items: center;
   gap: 3px;
-  padding: 5px;
-  border: 1px solid var(--line);
+  padding: 0;
+  border: none;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  background: transparent;
 }
 
 .nav-link {
   position: relative;
   padding: 8px 13px;
   border-radius: 999px;
-  color: var(--text);
-  font-size: 13px;
+  color: var(--dark-text);
+  font-size: 16px;
   transition: color .2s ease, background .2s ease;
+  text-decoration: none;
 }
 
-.nav-link:hover { color: var(--ink); background: var(--surface-2); }
+.nav-link:hover { color: var(--dark-ink); background: rgba(255,255,255,.07); }
+
+/* light mode overrides (for scrolled pill on light sections) */
+.nav.nav-light .brand { color: var(--ink); }
+.nav.nav-light .brand-mark { background: var(--ink); color: var(--accent); }
+.nav.nav-light .nav-link { color: var(--text); }
+.nav.nav-light .nav-link:hover { color: var(--ink); background: var(--surface-2); }
 
 .nav-actions { display: flex; align-items: center; gap: 8px; }
+
+.nav-spacer { height: 72px; }
 .icon-btn, .text-btn, .menu-btn {
   min-width: 38px;
   height: 38px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--dark-line);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  color: var(--ink);
+  background: rgba(255,255,255,.06);
+  color: var(--dark-ink);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -213,30 +239,12 @@ button { font: inherit; }
   transition: transform .18s ease, border-color .18s ease, background .18s ease;
 }
 
-.text-btn { padding: 0 12px; min-width: auto; font-size: 12px; font-family: var(--mono); color: var(--text); }
-.icon-btn:hover, .text-btn:hover, .menu-btn:hover { transform: translateY(-1px); border-color: var(--line-strong); }
-.text-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.text-btn { padding: 0 12px; min-width: auto; font-size: 12px; font-family: var(--mono); color: var(--dark-text); }
+.icon-btn:hover, .text-btn:hover, .menu-btn:hover { transform: translateY(-1px); border-color: var(--dark-line-strong); }
+.text-btn.active { background: var(--accent); color: var(--dark-bg); border-color: var(--accent); font-weight: 600; }
 .menu-btn { display: none; }
 
-.cta {
-  height: 38px;
-  padding: 0 16px;
-  border: 1px solid var(--ink);
-  border-radius: 999px;
-  background: var(--ink);
-  color: var(--bg);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: var(--fs-xs);
-  font-family: var(--mono);
-  font-weight: 400;
-  letter-spacing: var(--ls-caps);
-  text-transform: uppercase;
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-
-.cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-soft); }
+.cta:hover { transform: translateY(-2px); opacity: .88; }
 .cta .arrow, .btn .arrow { transition: transform .18s ease; }
 .cta:hover .arrow, .btn:hover .arrow { transform: translateX(4px); }
 
@@ -246,7 +254,34 @@ button { font: inherit; }
   align-items: center;
   padding: 72px 0 42px;
   overflow: hidden;
+  background: var(--dark-bg);
+  position: relative;
 }
+
+.hero::before {
+  content: none;
+}
+
+.hero .container { position: relative; z-index: 1; }
+
+.hero h1 { color: var(--dark-ink); }
+.hero .hero-copy { color: var(--dark-text); }
+.hero .eyebrow { color: var(--dark-text); }
+.hero .metric { background: rgba(255,255,255,.04); }
+.hero .metric strong { color: var(--dark-ink); }
+.hero .metric span { color: var(--dark-muted); }
+.hero .mini-metrics { background: var(--dark-line); border-color: var(--dark-line); }
+.hero .note-top { color: var(--dark-muted); }
+.hero .note-title { color: var(--dark-ink); }
+.hero .note-copy { color: var(--dark-text); }
+.hero .floating-note { background: rgba(10,10,10,.92); border-color: var(--dark-line-strong); }
+.hero .device { background: rgba(255,255,255,.04); border-color: var(--dark-line); }
+.hero .device-bar { border-color: var(--dark-line); }
+.hero .dot { background: var(--dark-line-strong); }
+.hero .device-panel { background: var(--dark-surface); border-color: var(--dark-line); }
+.hero .device-line { background: var(--dark-surface-2); }
+.hero .device-kpi { background: var(--dark-surface-2); border-color: var(--dark-line); }
+.hero .pulse { background: var(--accent); }
 
 .hero-grid {
   display: grid;
@@ -259,7 +294,7 @@ button { font: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--muted);
+  color: var(--text);
   font-family: var(--mono);
   font-size: var(--fs-xs);
   letter-spacing: var(--ls-caps);
@@ -284,9 +319,206 @@ h1 {
   margin: 18px 0 22px;
   max-width: 720px;
   font-size: clamp(48px, 6.8vw, 68px);
-  line-height: 76px;
+  line-height: 1.1;
   letter-spacing: var(--ls-heading);
   font-weight: 400;
+}
+
+/* ── LANG TOGGLE ── */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  border: 1px solid var(--dark-line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lang-opt {
+  height: 100%;
+  padding: 0 11px;
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--dark-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color .18s, background .18s;
+  display: flex;
+  align-items: center;
+}
+
+.lang-opt.active {
+  background: rgba(255,255,255,.14);
+  color: var(--dark-ink);
+}
+
+.nav.nav-light .lang-toggle {
+  border-color: var(--line);
+  background: rgba(14,22,6,.04);
+}
+
+.nav.nav-light .lang-opt { color: var(--muted); }
+.nav.nav-light .lang-opt.active { background: var(--surface-2); color: var(--ink); }
+
+/* ── NAV CTA accent ── */
+.cta {
+  height: 34px;
+  padding: 0 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--fs-xs);
+  font-family: var(--mono);
+  font-weight: 500;
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  transition: transform .18s ease, opacity .18s ease;
+  text-decoration: none;
+}
+
+.cta:hover { transform: translateY(-2px); opacity: .88; }
+.cta .arrow { display: none; }
+
+/* ── TABLIST ── */
+.tab-row {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-2);
+  width: fit-content;
+  padding: 4px;
+}
+
+.tab {
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  padding: 0 18px;
+  font-size: var(--fs-sm);
+  font-family: var(--f);
+  font-weight: 400;
+  letter-spacing: -.01em;
+  cursor: pointer;
+  transition: color .18s, background .18s;
+  white-space: nowrap;
+}
+
+.tab:hover { color: var(--ink); }
+
+.tab.active {
+  background: var(--ink);
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ── FOOTER WOLFF OLINS STYLE ── */
+footer {
+  background: var(--accent);
+  padding: 0;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  padding: 56px 0 32px;
+}
+
+.footer-col-left { display: flex; flex-direction: column; gap: 10px; }
+.footer-col-right { display: flex; flex-direction: column; gap: 0; align-items: flex-start; }
+.footer-col-backtop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.footer-col-label {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: rgba(10,10,10,.5);
+  margin-bottom: 16px;
+}
+
+.footer-links { display: flex; flex-direction: column; gap: 0; }
+
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-base);
+  color: var(--ink);
+  text-decoration: none;
+  padding: 10px 0;
+  width: 100%;
+  transition: gap .2s ease;
+  letter-spacing: -.02em;
+}
+
+.footer-link:hover { gap: 16px; }
+
+.footer-link-arrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.footer-wordmark {
+  padding: 0;
+  overflow: hidden;
+  margin-bottom: -10px;
+}
+
+.footer-wordmark-text {
+  font-size: clamp(72px, 14vw, 180px);
+  font-weight: 600;
+  letter-spacing: -.06em;
+  color: var(--ink);
+  line-height: .82;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
+}
+
+.footer-bottom { display: none; }
+
+.footer-back-top {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink);
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  opacity: .6;
+  transition: opacity .18s;
+  text-decoration: none;
+}
+
+.footer-back-top:hover { opacity: 1; }
+.footer-back-top svg { width: 20px; height: 20px; }
+
+@media (max-width: 620px) {
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .footer-col-backtop { display: none; }
+  .footer-wordmark-text { font-size: clamp(56px, 18vw, 120px); }
 }
 
 .hero-copy {
@@ -510,29 +742,47 @@ h1 {
   max-height: 36px;
   object-fit: contain;
   object-position: center;
-  filter: grayscale(100%);
-  opacity: 0.65;
-  transition: filter .2s ease, opacity .2s ease;
+  opacity: 0.75;
+  transition: opacity .2s ease;
 }
 
 .logo-card:hover .logo-img {
-  filter: grayscale(0%);
   opacity: 1;
 }
 
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 .section { padding: 96px 0; }
+
+/* ── LEFT ALIGNED HEADER ── */
 .section-head {
   display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 28px;
-  margin-bottom: 30px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 36px;
+  max-width: 640px;
+}
+
+/* ── CENTER ALIGNED HEADER ── */
+.section-head-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  margin-bottom: 36px;
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-head-center .section-lede {
+  max-width: 520px;
 }
 
 .section h2 {
-  margin: 10px 0 0;
+  margin: 6px 0 0;
   max-width: 660px;
   font-size: clamp(36px, 4.8vw, 60px);
   line-height: 1.0;
@@ -541,9 +791,11 @@ h1 {
 }
 
 .section-lede {
-  max-width: 390px;
+  max-width: 480px;
   color: var(--text);
   margin: 0;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
 }
 
 .card-grid {
@@ -568,8 +820,8 @@ h1 {
   min-height: 250px;
   padding: 24px;
   border-radius: 14px;
-  border: 1px solid rgba(22, 22, 22, 0.13);
-  background: rgba(150, 164, 50, 0.20);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
   overflow: hidden;
   transform: translateZ(0);
   transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
@@ -601,27 +853,6 @@ h1 {
 .card-title { margin: 18px 0 10px; font-size: var(--fs-xl); line-height: var(--lh-xl); letter-spacing: var(--ls-heading); font-weight: 400; }
 .card-copy { color: var(--text); margin: 0; font-size: 14px; }
 
-.tab-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.tab {
-  height: 40px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  color: var(--text);
-  cursor: pointer;
-  padding: 0 14px;
-  transition: color .18s ease, background .18s ease, border-color .18s ease, transform .18s ease;
-}
-
-.tab:hover { transform: translateY(-1px); border-color: var(--line-strong); color: var(--ink); }
-.tab.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-
 .service-panel {
   display: none;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -634,6 +865,22 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.service-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.service-card-icon img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 .tag {
@@ -722,6 +969,43 @@ h1 {
   font-size: 11px;
 }
 
+/* ── DARK SECTIONS: AI LAB + PRICING ── */
+.section-dark {
+  background: var(--dark-bg);
+  position: relative;
+}
+
+.section-dark::before {
+  content: none;
+}
+
+.section-dark .container { position: relative; z-index: 1; }
+.section-dark .eyebrow { color: var(--dark-text); }
+.section-dark h2 { color: var(--dark-ink); }
+.section-dark .section-lede { color: var(--dark-text); }
+.section-dark .section-head-center .section-lede { color: var(--dark-text); }
+.section-dark .prompt-item { border-color: var(--dark-line); background: rgba(255,255,255,.04); color: var(--dark-text); }
+.section-dark .prompt-item:hover,
+.section-dark .prompt-item.active { border-color: var(--accent); color: var(--dark-ink); background: rgba(237,253,102,.06); }
+.section-dark .prompt-item strong { color: var(--dark-ink); }
+.section-dark .output-card { border: 1px solid var(--dark-line); border-radius: var(--radius-lg); padding: 24px; background: rgba(255,255,255,.03); }
+.section-dark .output-title { color: var(--dark-ink); }
+.section-dark .output-copy { color: var(--dark-text); }
+.section-dark .pill { border-color: var(--dark-line); color: var(--dark-muted); }
+.section-dark .pricing-card { background: #FFFFFF; border-color: rgba(255,255,255,.08); }
+.section-dark .pricing-card.featured { background: #FFFFFF; border: none; }
+.section-dark .pricing-moving-border::after { background: #0A0A0A; }
+.section-dark .pricing-card .pricing-plan-label { color: var(--muted); }
+.section-dark .pricing-card .pricing-headline { color: var(--ink); }
+.section-dark .pricing-card .pricing-price { color: var(--ink); }
+.section-dark .pricing-card .pricing-price-original { color: var(--muted); }
+.section-dark .pricing-card .pricing-feature { color: var(--text); }
+.section-dark .pricing-card .pricing-check { background: var(--ink); }
+.section-dark .pricing-card .pricing-check svg path { stroke: #fff; }
+.section-dark .pricing-card:not(.featured) .pricing-cta { background: var(--ink); color: #fff; border-color: var(--ink); }
+.section-dark .pricing-card.featured .pricing-cta { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.section-dark .pricing-recommended { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+
 .ai-lab {
   display: grid;
   grid-template-columns: .85fr 1.15fr;
@@ -799,42 +1083,171 @@ h1 {
 
 .final-cta {
   border-block: 1px solid var(--line);
+  background: var(--bg);
+  padding: 0;
+  overflow: hidden;
+}
+
+.final-cta-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 560px;
+  gap: 0;
+}
+
+.final-cta-left {
+  padding: 96px 56px 96px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-right: 1px solid var(--line);
+}
+
+.final-cta-right {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px;
+  margin-left: 0;
+  border-radius: 0;
+}
+
+.final-cta-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
-    linear-gradient(120deg, color-mix(in srgb, var(--accent) 18%, transparent), transparent 42%),
-    linear-gradient(300deg, color-mix(in srgb, var(--accent-3) 15%, transparent), transparent 46%),
-    var(--ink);
-  color: var(--bg);
-  padding: 86px 0;
+    radial-gradient(ellipse 70% 60% at 80% 30%, rgba(135,222,239,.25), transparent),
+    radial-gradient(ellipse 50% 70% at 20% 80%, rgba(237,253,102,.18), transparent);
 }
 
 .final-cta h2 {
-  margin: 0 0 18px;
-  max-width: 850px;
-  font-size: clamp(44px, 6.5vw, 68px);
+  margin: 0 0 16px;
+  font-size: clamp(36px, 4.8vw, 56px);
   line-height: 1.0;
   letter-spacing: var(--ls-heading);
   font-weight: 400;
+  color: var(--ink);
 }
 
-.final-cta p { color: color-mix(in srgb, var(--bg) 75%, transparent); max-width: 590px; font-size: 18px; }
-.final-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
-.final-cta .btn { background: var(--accent); color: var(--ink); border-color: var(--accent); }
-.final-cta .btn.ghost { background: transparent; color: var(--bg); border-color: color-mix(in srgb, var(--bg) 28%, transparent); box-shadow: none; }
-
-footer {
-  padding: 42px 0;
-  color: var(--muted);
+.final-cta-sub {
+  color: var(--text);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  max-width: 380px;
+  margin-bottom: 32px;
 }
 
-.footer-inner {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
+.final-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.final-cta .btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.final-cta .btn.primary:hover { opacity: .85; transform: translateY(-2px); }
+
+.final-cta-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255,255,255,.72);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  max-width: 360px;
+  width: 100%;
+  backdrop-filter: blur(12px);
+}
+
+.final-cta-card-eyebrow {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.final-cta-card-text {
+  font-size: clamp(24px, 3vw, 36px);
+  line-height: 1.2;
+  letter-spacing: var(--ls-heading);
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.final-cta-card-text strong {
+  color: var(--accent-2);
+  font-weight: 400;
+}
+
+.final-cta-avail {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-top: 28px;
+  letter-spacing: var(--ls-caps);
+}
+
+.final-cta-avail-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34,197,94,.4);
+  animation: pulse 2.2s infinite;
+  flex-shrink: 0;
+}
+
+@media (max-width: 920px) {
+  .final-cta-inner { grid-template-columns: 1fr; }
+  .final-cta-left { border-right: none; border-bottom: 1px solid var(--line); padding: 52px 0; }
+  .final-cta-right { padding: 52px 28px; min-height: 320px; }
+}
+
+/* ── STICKY FOOTER REVEAL ── */
+footer {
+  background: var(--accent);
+  padding: 0;
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-inner-wrap {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.footer-spacer {
+  flex: 1;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
+}
+
+.footer-wordmark {
+  padding: 0;
+  overflow: hidden;
+}
+
+.footer-wordmark-text {
+  font-size: clamp(72px, 14vw, 180px);
+  font-weight: 600;
+  letter-spacing: -.06em;
+  color: var(--ink);
+  line-height: .82;
+  white-space: nowrap;
+  display: block;
+  width: 100%;
 }
 
 /* ── PRICING SECTION ── */
@@ -854,15 +1267,10 @@ footer {
   height: 646px;
   padding: 24px;
   border-radius: 14px;
-  border: 1px solid rgba(22, 22, 22, 0.13);
-  background: var(--bg);
+  border: 1px solid var(--line);
+  background: #FFFFFF;
   transition: transform .22s ease, box-shadow .22s ease;
   position: relative;
-}
-
-[data-theme="dark"] .pricing-card {
-  background: var(--surface);
-  border-color: rgba(255, 255, 255, 0.13);
 }
 
 .pricing-card:hover {
@@ -871,13 +1279,59 @@ footer {
 }
 
 .pricing-card.featured {
-  background: var(--ink);
-  border-color: var(--ink);
+  background: #FFFFFF;
+  border: none;
+  padding: 26px; /* +2px to compensate for removed border */
 }
 
-[data-theme="dark"] .pricing-card.featured {
-  background: var(--surface-2);
-  border-color: var(--accent);
+/* Moving border wrapper */
+.pricing-moving-border {
+  position: relative;
+  border-radius: 14px;
+  padding: 2px;
+  background: transparent;
+}
+
+.pricing-moving-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  background: conic-gradient(
+    from var(--mb-angle, 0deg),
+    transparent 0deg,
+    transparent 300deg,
+    var(--accent) 330deg,
+    #fff8 345deg,
+    var(--accent) 360deg
+  );
+  animation: movingBorder 3s linear infinite;
+  z-index: 0;
+}
+
+.pricing-moving-border::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  border-radius: 13px;
+  background: #0A0A0A;
+  z-index: 1;
+}
+
+.pricing-moving-border .pricing-card.featured {
+  position: relative;
+  z-index: 2;
+  border-radius: 12px;
+}
+
+@property --mb-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes movingBorder {
+  to { --mb-angle: 360deg; }
 }
 
 .pricing-card-top { display: flex; flex-direction: column; gap: 0; width: 100%; }
@@ -893,12 +1347,21 @@ footer {
   flex-shrink: 0;
 }
 
-.pricing-card.featured .pricing-icon {
-  background: var(--accent);
+.pricing-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--ink);
+  display: grid;
+  place-items: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
 }
 
 .pricing-icon img,
 .pricing-icon svg { width: 22px; height: 22px; }
+.pricing-icon svg path,
+.pricing-icon svg polygon { fill: var(--accent); }
 
 .pricing-plan-label {
   font-family: var(--mono);
@@ -909,8 +1372,6 @@ footer {
   margin-bottom: 12px;
 }
 
-.pricing-card.featured .pricing-plan-label { color: rgba(255,255,255,.5); }
-
 .pricing-headline {
   font-family: var(--font);
   font-size: clamp(22px, 2.8vw, 28px);
@@ -920,8 +1381,6 @@ footer {
   color: var(--ink);
   margin: 0 0 20px;
 }
-
-.pricing-card.featured .pricing-headline { color: #fff; }
 
 .pricing-price-row {
   display: flex;
@@ -938,8 +1397,6 @@ footer {
   color: var(--ink);
   line-height: 1;
 }
-
-.pricing-card.featured .pricing-price { color: #fff; }
 
 .pricing-price-original {
   font-family: var(--mono);
@@ -965,30 +1422,29 @@ footer {
   line-height: var(--lh-sm);
 }
 
-.pricing-card.featured .pricing-feature { color: rgba(255,255,255,.75); }
-
+/* check icon — ink color for all cards */
 .pricing-check {
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--ink);
   display: grid;
   place-items: center;
   flex-shrink: 0;
   margin-top: 1px;
 }
 
-.pricing-card.featured .pricing-check { background: rgba(255,255,255,.2); }
-
 .pricing-check svg { width: 10px; height: 10px; }
+.pricing-check svg path { stroke: #fff; }
 
+/* CTA — default: ink bg */
 .pricing-cta {
   width: 100%;
   height: 48px;
   border-radius: 999px;
   border: 1px solid var(--ink);
   background: var(--ink);
-  color: var(--bg);
+  color: #fff;
   font-family: var(--mono);
   font-size: var(--fs-xs);
   font-weight: 400;
@@ -1000,10 +1456,13 @@ footer {
   justify-content: center;
   transition: opacity .18s ease, transform .18s ease;
   text-decoration: none;
+  position: relative;
+  z-index: 1;
 }
 
 .pricing-cta:hover { opacity: .82; transform: translateY(-2px); }
 
+/* featured CTA — accent yellow */
 .pricing-card.featured .pricing-cta {
   background: var(--accent);
   border-color: var(--accent);
@@ -1017,20 +1476,142 @@ footer {
   translate: -50% -50%;
   background: var(--accent);
   color: var(--ink);
+  border: 2px solid var(--accent);
   font-family: var(--mono);
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: var(--ls-caps);
   text-transform: uppercase;
-  padding: 4px 12px;
+  padding: 4px 14px;
   border-radius: 999px;
   white-space: nowrap;
+  z-index: 2;
 }
 
 @media (max-width: 920px) {
-  .pricing-grid { grid-template-columns: 1fr; }
-  .pricing-card { height: auto; }
+  .pricing-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pricing-card { height: auto; min-height: 0; }
+  .pricing-moving-border { height: auto; }
 }
+
+@media (max-width: 620px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+}
+/* ── TESTIMONIALS ── */
+.testimonial-wrap {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.testimonial-track {
+  position: relative;
+  overflow: hidden;
+  min-height: 180px;
+}
+
+.testimonial-slide {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(0);
+}
+
+.testimonial-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.testimonial-slide.is-entering-right {
+  animation: tInRight .42s cubic-bezier(.22,1,.36,1) forwards;
+}
+.testimonial-slide.is-leaving-left {
+  animation: tOutLeft .42s cubic-bezier(.22,1,.36,1) forwards;
+}
+.testimonial-slide.is-entering-left {
+  animation: tInLeft .42s cubic-bezier(.22,1,.36,1) forwards;
+}
+.testimonial-slide.is-leaving-right {
+  animation: tOutRight .42s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes tInRight  { from{transform:translateX(60px);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes tOutLeft  { from{transform:translateX(0);opacity:1}    to{transform:translateX(-60px);opacity:0} }
+@keyframes tInLeft   { from{transform:translateX(-60px);opacity:0} to{transform:translateX(0);opacity:1} }
+@keyframes tOutRight { from{transform:translateX(0);opacity:1}    to{transform:translateX(60px);opacity:0} }
+
+.testimonial-quote {
+  font-size: clamp(22px, 3.2vw, 40px);
+  line-height: 1.3;
+  letter-spacing: var(--ls-heading);
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 36px;
+}
+
+.testimonial-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+}
+
+.testimonial-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.testimonial-name {
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: var(--ls-heading);
+  line-height: 1.3;
+}
+
+.testimonial-role {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  margin-top: 3px;
+  letter-spacing: var(--ls-caps);
+}
+
+.testimonial-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 36px;
+}
+
+.testimonial-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-family: var(--mono);
+  transition: opacity .18s ease, transform .18s ease;
+  line-height: 1;
+}
+
+.testimonial-btn:hover { opacity: .75; transform: translateY(-1px); }
+
 html body [data-lang] { display: none; }
 html[data-current-lang="en"] body [data-lang="en"], html[data-current-lang="zh"] body [data-lang="zh"] { display: inline; }
 html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"] [data-lang-block="zh"] { display: block; }
@@ -1073,8 +1654,9 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     align-items: stretch;
     border-radius: 14px;
     padding: 8px;
-    background: var(--surface);
-    box-shadow: var(--shadow);
+    background: var(--dark-surface);
+    border: 1px solid var(--dark-line);
+    box-shadow: 0 16px 40px rgba(0,0,0,.4);
   }
   .nav.open .nav-links { display: flex; animation: fadeUp .2s ease both; }
   .nav-link { padding: 13px 14px; }
@@ -1109,8 +1691,12 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 </style>
 </head>
 <body>
-<div class="noise"></div>
-<div class="spotlight" aria-hidden="true"></div>
+<div class="noise" aria-hidden="true"></div>
+<div class="custom-cursor" id="customCursor" aria-hidden="true">
+  <svg width="72" height="66" viewBox="0 0 124 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M123.387 102.217L28.9153 17.4722L95.48 16.8486L95.2626 -0.00046299L1.41174e-06 0.892011L0.892475 96.1547L17.6825 95.9974L17.119 29.4916L111.591 114.236L123.387 102.217Z" fill="#FFF84B"/>
+  </svg>
+</div>
 
 <nav class="nav" id="nav">
   <div class="container nav-inner">
@@ -1121,22 +1707,23 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     <div class="nav-links" id="navLinks">
       <a class="nav-link" href="#services"><span data-lang="en">Services</span><span data-lang="zh">服务</span></a>
       <a class="nav-link" href="#work"><span data-lang="en">Work</span><span data-lang="zh">案例</span></a>
-      <a class="nav-link" href="#lab"><span data-lang="en">AI Lab</span><span data-lang="zh">AI 实验室</span></a>
-      <a class="nav-link" href="#pricing"><span data-lang="en">Pricing</span><span data-lang="zh">定价</span></a>
-      <a class="nav-link" href="#process"><span data-lang="en">Process</span><span data-lang="zh">流程</span></a>
+      <a class="nav-link" href="#about"><span data-lang="en">About</span><span data-lang="zh">关于</span></a>
     </div>
     <div class="nav-actions">
-      <button class="text-btn active" id="langEn" type="button">EN</button>
-      <button class="text-btn" id="langZh" type="button">中文</button>
-      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode" title="Toggle theme">◐</button>
-      <a class="cta" href="mailto:sukky147@gmail.com"><span data-lang="en">Start</span><span data-lang="zh">联系</span><span class="arrow">-></span></a>
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button class="lang-opt active" id="langEn" type="button">EN</button>
+        <button class="lang-opt" id="langZh" type="button">中文</button>
+      </div>
+      <a class="cta" href="mailto:sukky147@gmail.com"><span data-lang="en">Start</span><span data-lang="zh">联系</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation">☰</button>
     </div>
   </div>
 </nav>
 
+<div class="nav-spacer"></div>
+
 <main id="top">
-  <section class="hero">
+  <section class="hero" data-nav="dark">
     <div class="container hero-grid">
       <div>
         <div class="eyebrow reveal"><span class="pulse"></span><span data-lang="en">AI-powered brand and web studio</span><span data-lang="zh">AI 驱动品牌与网页设计工作室</span></div>
@@ -1146,7 +1733,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
           <span data-lang="zh">YES STUDIO 帮助跨境品牌从模板站升级为有记忆点、可转化、可长期运营的品牌系统。策略、设计、开发和 AI 内容工作流一次交付。</span>
         </p>
         <div class="hero-actions reveal delay-3">
-          <a class="btn primary" href="mailto:sukky147@gmail.com"><span data-lang="en">Book a diagnosis</span><span data-lang="zh">预约品牌诊断</span><span class="arrow">-></span></a>
+          <a class="btn primary" href="mailto:sukky147@gmail.com"><span data-lang="en">Book a diagnosis</span><span data-lang="zh">预约品牌诊断</span></a>
           <a class="btn" href="#lab"><span data-lang="en">Try the AI lab</span><span data-lang="zh">查看 AI 实验室</span></a>
         </div>
         <div class="mini-metrics reveal delay-3">
@@ -1184,7 +1771,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     </div>
   </section>
 
-  <div class="logo-strip" aria-label="Partner logos">
+  <div class="logo-strip" aria-label="Partner logos" data-nav="light">
     <div class="logo-strip-track">
       <div class="logo-card"><img src="assets/logos/logo-tiktok.png" alt="TikTok" class="logo-img"></div>
       <div class="logo-card"><img src="assets/logos/logo-anker.png" alt="ANKER" class="logo-img"></div>
@@ -1203,17 +1790,15 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     </div>
   </div>
 
-  <section class="section" id="services">
+  <section class="section" id="services" data-nav="light">
     <div class="container">
       <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">Services</div>
-          <h2><span data-lang="en">A compact team for launch, redesign, and AI growth.</span><span data-lang="zh">一个小而快的团队，完成上线、改版和 AI 增长。</span></h2>
-        </div>
+        <div class="eyebrow">Services</div>
+        <h2><span data-lang="en">A compact team for launch, redesign, and AI growth.</span><span data-lang="zh">一个小而快的团队，完成上线、改版和 AI 增长。</span></h2>
         <p class="section-lede"><span data-lang="en">Pick the sprint you need now. Each module can stand alone or connect into a full brand operating system.</span><span data-lang="zh">按当前需求选择模块。每个模块都能独立交付，也能串联成完整品牌运营系统。</span></p>
       </div>
 
-      <div class="tab-row reveal">
+      <div class="tab-row reveal" role="tablist" aria-label="Services">
         <button class="tab active" type="button" data-panel="launch"><span data-lang="en">Store Launch</span><span data-lang="zh">独立站上线</span></button>
         <button class="tab" type="button" data-panel="brand"><span data-lang="en">Brand Upgrade</span><span data-lang="zh">品牌升级</span></button>
         <button class="tab" type="button" data-panel="ai"><span data-lang="en">AI Content</span><span data-lang="zh">AI 内容系统</span></button>
@@ -1221,58 +1806,56 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 
       <div class="service-panel active" id="launch">
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">01 / Strategy</span><h3 class="card-title"><span data-lang="en">Positioning sprint</span><span data-lang="zh">品牌定位冲刺</span></h3><p class="card-copy"><span data-lang="en">Audience, competitor gap, offer structure, and brand voice before a single pixel is designed.</span><span data-lang="zh">先明确受众、竞争差异、产品结构和品牌语气，再开始设计。</span></p></div>
-          <span class="tag">3-5 days</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-strategy.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Positioning sprint</span><span data-lang="zh">品牌定位冲刺</span></h3><p class="card-copy"><span data-lang="en">Audience, competitor gap, offer structure, and brand voice before a single pixel is designed.</span><span data-lang="zh">先明确受众、竞争差异、产品结构和品牌语气，再开始设计。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">02 / Build</span><h3 class="card-title"><span data-lang="en">Custom web build</span><span data-lang="zh">定制网页开发</span></h3><p class="card-copy"><span data-lang="en">Shopify or modern custom frontend with responsive layout, clean CMS logic, and performance basics.</span><span data-lang="zh">Shopify 或现代前端开发，包含响应式布局、清晰后台逻辑和基础性能优化。</span></p></div>
-          <span class="tag">7-10 days</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-build.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Custom web build</span><span data-lang="zh">定制网页开发</span></h3><p class="card-copy"><span data-lang="en">Shopify or modern custom frontend with responsive layout, clean CMS logic, and performance basics.</span><span data-lang="zh">Shopify 或现代前端开发，包含响应式布局、清晰后台逻辑和基础性能优化。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">03 / Handoff</span><h3 class="card-title"><span data-lang="en">Launch training</span><span data-lang="zh">上线培训</span></h3><p class="card-copy"><span data-lang="en">Documentation, team walkthrough, analytics setup, and a clean 30-day support window.</span><span data-lang="zh">文档、团队培训、数据分析设置，以及 30 天维护窗口。</span></p></div>
-          <span class="tag">2 days</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-launch.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Launch training</span><span data-lang="zh">上线培训</span></h3><p class="card-copy"><span data-lang="en">Documentation, team walkthrough, analytics setup, and a clean 30-day support window.</span><span data-lang="zh">文档、团队培训、数据分析设置，以及 30 天维护窗口。</span></p></div>
         </article>
       </div>
 
       <div class="service-panel" id="brand">
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">01 / Identity</span><h3 class="card-title"><span data-lang="en">Visual system</span><span data-lang="zh">视觉系统</span></h3><p class="card-copy"><span data-lang="en">Logo refinement, color, typography, graphic rules, and a guideline your team can actually use.</span><span data-lang="zh">Logo 优化、配色、字体、图形规则，以及团队真正能使用的规范。</span></p></div>
-          <span class="tag">5-7 days</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-identity.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Visual system</span><span data-lang="zh">视觉系统</span></h3><p class="card-copy"><span data-lang="en">Logo refinement, color, typography, graphic rules, and a guideline your team can actually use.</span><span data-lang="zh">Logo 优化、配色、字体、图形规则，以及团队真正能使用的规范。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">02 / UX</span><h3 class="card-title"><span data-lang="en">Conversion redesign</span><span data-lang="zh">转化导向改版</span></h3><p class="card-copy"><span data-lang="en">Sharper hierarchy, product storytelling, trust modules, and checkout path cleanup.</span><span data-lang="zh">优化信息层级、产品叙事、信任模块和购买路径。</span></p></div>
-          <span class="tag">7-10 days</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-ux.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Conversion redesign</span><span data-lang="zh">转化导向改版</span></h3><p class="card-copy"><span data-lang="en">Sharper hierarchy, product storytelling, trust modules, and checkout path cleanup.</span><span data-lang="zh">优化信息层级、产品叙事、信任模块和购买路径。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">03 / Content</span><h3 class="card-title"><span data-lang="en">Voice framework</span><span data-lang="zh">品牌语气框架</span></h3><p class="card-copy"><span data-lang="en">Reusable homepage, product page, email, and social copy patterns in one tone.</span><span data-lang="zh">统一品牌语气下的首页、产品页、邮件和社媒文案模板。</span></p></div>
-          <span class="tag">3-5 days</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-content.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Voice framework</span><span data-lang="zh">品牌语气框架</span></h3><p class="card-copy"><span data-lang="en">Reusable homepage, product page, email, and social copy patterns in one tone.</span><span data-lang="zh">统一品牌语气下的首页、产品页、邮件和社媒文案模板。</span></p></div>
         </article>
       </div>
 
       <div class="service-panel" id="ai">
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">01 / SKU</span><h3 class="card-title"><span data-lang="en">Product copy engine</span><span data-lang="zh">产品文案引擎</span></h3><p class="card-copy"><span data-lang="en">Generate multilingual product descriptions that follow your positioning and SEO structure.</span><span data-lang="zh">批量生成符合品牌定位和 SEO 结构的多语言产品描述。</span></p></div>
-          <span class="tag">10x faster</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-sku.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Product copy engine</span><span data-lang="zh">产品文案引擎</span></h3><p class="card-copy"><span data-lang="en">Generate multilingual product descriptions that follow your positioning and SEO structure.</span><span data-lang="zh">批量生成符合品牌定位和 SEO 结构的多语言产品描述。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">02 / SEO</span><h3 class="card-title"><span data-lang="en">Content matrix</span><span data-lang="zh">内容矩阵</span></h3><p class="card-copy"><span data-lang="en">Keyword clusters, blog briefs, internal links, and monthly content workflow.</span><span data-lang="zh">关键词分组、博客 brief、内链结构和月度内容工作流。</span></p></div>
-          <span class="tag">compound growth</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-seo.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">Content matrix</span><span data-lang="zh">内容矩阵</span></h3><p class="card-copy"><span data-lang="en">Keyword clusters, blog briefs, internal links, and monthly content workflow.</span><span data-lang="zh">关键词分组、博客 brief、内链结构和月度内容工作流。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div><span class="card-num">03 / Ops</span><h3 class="card-title"><span data-lang="en">AI operations kit</span><span data-lang="zh">AI 运营工具包</span></h3><p class="card-copy"><span data-lang="en">Support knowledge base, email automation prompts, and campaign calendars.</span><span data-lang="zh">客服知识库、邮件自动化提示词和营销日历。</span></p></div>
-          <span class="tag">20+ workflows</span>
+          <div class="service-card-icon"><img src="assets/icons/icon-ops.svg" alt=""></div>
+          <div><h3 class="card-title"><span data-lang="en">AI operations kit</span><span data-lang="zh">AI 运营工具包</span></h3><p class="card-copy"><span data-lang="en">Support knowledge base, email automation prompts, and campaign calendars.</span><span data-lang="zh">客服知识库、邮件自动化提示词和营销日历。</span></p></div>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="section" id="work">
+  <section class="section" id="work" data-nav="light">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">Selected Work</div>
-          <h2><span data-lang="en">More brand memory. Less template fatigue.</span><span data-lang="zh">更多品牌记忆点，更少模板疲劳。</span></h2>
-        </div>
+      <div class="section-head-center reveal">
+        <div class="eyebrow">Selected Work</div>
+        <h2><span data-lang="en">More brand memory. Less template fatigue.</span><span data-lang="zh">更多品牌记忆点，更少模板疲劳。</span></h2>
         <p class="section-lede"><span data-lang="en">Demo case cards use lightweight visual systems to show how each brand can own a different mood without slowing the page.</span><span data-lang="zh">案例卡片用轻量视觉系统展示不同品牌气质，同时保持页面速度。</span></p>
       </div>
       <div class="work-grid">
@@ -1307,13 +1890,11 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     </div>
   </section>
 
-  <section class="section" id="lab">
+  <section class="section section-dark" id="lab" data-nav="dark">
     <div class="container">
       <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">AI Lab</div>
-          <h2><span data-lang="en">A tiny interactive preview of the system.</span><span data-lang="zh">一个迷你交互版 AI 系统预览。</span></h2>
-        </div>
+        <div class="eyebrow">AI Lab</div>
+        <h2><span data-lang="en">A tiny interactive preview of the system.</span><span data-lang="zh">一个迷你交互版 AI 系统预览。</span></h2>
         <p class="section-lede"><span data-lang="en">Click a brief to change the generated brand output. It is intentionally quick, clear, and client-friendly.</span><span data-lang="zh">点击 brief 切换生成结果。交互轻、信息清晰，适合客户快速理解。</span></p>
       </div>
       <div class="ai-lab">
@@ -1332,13 +1913,11 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     </div>
   </section>
 
-  <section class="section" id="process">
+  <section class="section" id="process" data-nav="light">
     <div class="container">
       <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">Process</div>
-          <h2><span data-lang="en">Four steps, visible from day one.</span><span data-lang="zh">四个步骤，从第一天开始透明推进。</span></h2>
-        </div>
+        <div class="eyebrow">Process</div>
+        <h2><span data-lang="en">Four steps, visible from day one.</span><span data-lang="zh">四个步骤，从第一天开始透明推进。</span></h2>
       </div>
       <div class="timeline reveal">
         <article class="step"><span class="card-num">01 / Diagnose</span><h3><span data-lang="en">Brand gap map</span><span data-lang="zh">品牌差距地图</span></h3><p><span data-lang="en">We identify market, audience, offer, and visual gaps.</span><span data-lang="zh">梳理市场、受众、产品结构和视觉差距。</span></p></article>
@@ -1349,13 +1928,65 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     </div>
   </section>
 
-  <section class="section" id="pricing">
+  </section>
+
+  <section class="section" id="testimonials" data-nav="light">
+    <div class="container">
+      <div class="section-head-center reveal">
+        <div class="eyebrow">Testimonials</div>
+      </div>
+      <div class="testimonial-wrap reveal delay-1">
+        <div class="testimonial-track" id="testimonialTrack">
+
+          <div class="testimonial-slide active">
+            <p class="testimonial-quote">"Working with YES STUDIO was unlike any agency experience I've had. They understood our brand direction immediately and delivered a system we can actually maintain."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.11959e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 -6.99382e-07L6.59 1.41L12.17 7L7.86805e-07 7L6.11959e-07 9Z" fill="#FFF84B"/></svg></div>
+              <div>
+                <div class="testimonial-name">Name Surname</div>
+                <div class="testimonial-role">Position, Company Name</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-slide">
+            <p class="testimonial-quote">"The AI content system alone saved us weeks of work every month. Our product pages finally feel like a real brand, not a template."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.11959e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 -6.99382e-07L6.59 1.41L12.17 7L7.86805e-07 7L6.11959e-07 9Z" fill="#FFF84B"/></svg></div>
+              <div>
+                <div class="testimonial-name">Name Surname</div>
+                <div class="testimonial-role">Position, Company Name</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-slide">
+            <p class="testimonial-quote">"From strategy to launch in under two weeks. The whole process was transparent and the results speak for themselves — conversion rate up 38% in month one."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.11959e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 -6.99382e-07L6.59 1.41L12.17 7L7.86805e-07 7L6.11959e-07 9Z" fill="#FFF84B"/></svg></div>
+              <div>
+                <div class="testimonial-name">Name Surname</div>
+                <div class="testimonial-role">Position, Company Name</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="testimonial-controls">
+          <button class="testimonial-btn" id="t-prev" aria-label="Previous"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:scaleX(-1)"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#FFF84B"/></svg></button>
+          <button class="testimonial-btn" id="t-next" aria-label="Next"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#FFF84B"/></svg></button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark" id="pricing" data-nav="dark">
     <div class="container">
       <div class="section-head reveal">
-        <div>
-          <div class="eyebrow">Pricing</div>
-          <h2><span data-lang="en">Flexible plans for every business.</span><span data-lang="zh">灵活定价，适合每个阶段。</span></h2>
-        </div>
+        <div class="eyebrow">Pricing</div>
+        <h2><span data-lang="en">Flexible plans for every business.</span><span data-lang="zh">灵活定价，适合每个阶段。</span></h2>
         <p class="section-lede"><span data-lang="en">Clear pricing, no hidden fees. Choose the plan that works best for your goals.</span><span data-lang="zh">定价透明，无隐藏费用。选择最适合你目标的方案。</span></p>
       </div>
       <div class="pricing-grid reveal">
@@ -1385,12 +2016,13 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
         </article>
 
         <!-- GROWTH (featured) -->
-        <article class="pricing-card featured">
+        <div class="pricing-moving-border">
+          <article class="pricing-card featured">
           <span class="pricing-recommended">Recommended</span>
           <div class="pricing-card-top">
             <div class="pricing-icon">
               <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M11 2L13.5 8.5H20.5L14.5 12.5L16.5 19L11 15L5.5 19L7.5 12.5L1.5 8.5H8.5L11 2Z" fill="#091A21"/>
+                <path d="M11 2L13.5 8.5H20.5L14.5 12.5L16.5 19L11 15L5.5 19L7.5 12.5L1.5 8.5H8.5L11 2Z"/>
               </svg>
             </div>
             <div class="pricing-plan-label">Growth Plan</div>
@@ -1400,14 +2032,15 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
               <span class="pricing-price-original">$7,500</span>
             </div>
             <div class="pricing-features">
-              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#EDFD66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">Full VI system + brand strategy</span><span data-lang="zh">完整 VI 系统 + 品牌策略</span></div>
-              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#EDFD66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">Custom Shopify or Next.js build</span><span data-lang="zh">定制 Shopify 或 Next.js 开发</span></div>
-              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#EDFD66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">AI product copy (first 50 SKUs)</span><span data-lang="zh">AI 产品文案（首批 50 个 SKU）</span></div>
-              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#EDFD66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">14-day delivery, 2 revision rounds</span><span data-lang="zh">14 天交付，2 轮修改</span></div>
+              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">Full VI system + brand strategy</span><span data-lang="zh">完整 VI 系统 + 品牌策略</span></div>
+              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">Custom Shopify or Next.js build</span><span data-lang="zh">定制 Shopify 或 Next.js 开发</span></div>
+              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">AI product copy (first 50 SKUs)</span><span data-lang="zh">AI 产品文案（首批 50 个 SKU）</span></div>
+              <div class="pricing-feature"><span class="pricing-check"><svg viewBox="0 0 10 10" fill="none"><path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-lang="en">14-day delivery, 2 revision rounds</span><span data-lang="zh">14 天交付，2 轮修改</span></div>
             </div>
           </div>
           <a class="pricing-cta" href="mailto:sukky147@gmail.com"><span data-lang="en">Get Started</span><span data-lang="zh">开始合作</span></a>
-        </article>
+          </article>
+        </div>
 
         <!-- BRAND SYSTEM -->
         <article class="pricing-card">
@@ -1437,22 +2070,90 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     </div>
   </section>
 
-  <section class="final-cta">
-    <div class="container reveal">
-      <h2><span data-lang="en">Ready for a sharper YES?</span><span data-lang="zh">准备让 YES 更锋利一点吗？</span></h2>
-      <p><span data-lang="en">This demo keeps your original structure, then adds motion, better hierarchy, responsive behavior, and a theme switch that feels native to the brand.</span><span data-lang="zh">这个 demo 保留原页面结构，同时加入动效、更清晰的信息层级、响应式布局，以及符合品牌气质的明暗模式切换。</span></p>
-      <div class="final-actions">
-        <a class="btn" href="mailto:sukky147@gmail.com"><span data-lang="en">Start a conversation</span><span data-lang="zh">发邮件联系</span><span class="arrow">-></span></a>
-        <a class="btn ghost" href="#top"><span data-lang="en">Back to top</span><span data-lang="zh">回到顶部</span></a>
+  <section class="final-cta" data-nav="light">
+    <div class="final-cta-inner container">
+      <div class="final-cta-left reveal">
+        <h2>
+          <span data-lang="en">Ready for a<br>sharper YES?</span>
+          <span data-lang="zh">准备好说一个<br>更有力的 YES？</span>
+        </h2>
+        <p class="final-cta-sub">
+          <span data-lang="en">Free 30-min brand diagnosis. No pitch, no pressure. Bay Area team, bilingual, always responsive.</span>
+          <span data-lang="zh">免费 30 分钟品牌诊断，不收费，不强迫成交。湾区团队，中英双语，随时响应。</span>
+        </p>
+        <div class="final-actions">
+          <a class="btn primary" href="mailto:sukky147@gmail.com">
+            <span data-lang="en">Start a conversation</span>
+            <span data-lang="zh">发邮件联系</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="final-cta-right reveal delay-1">
+        <div class="final-cta-card">
+          <div class="final-cta-card-eyebrow">YES STUDIO</div>
+          <div class="final-cta-card-text">
+            <span data-lang="en">Expertise that Combines Strategy, <strong>Data,</strong> and <strong>Artificial Intelligence</strong></span>
+            <span data-lang="zh">融合策略、<strong>数据</strong>与<strong>人工智能</strong>的专业能力</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="container footer-inner">
-    <span>© 2026 YES STUDIO</span>
-    <span>San Francisco Bay Area / yes-studio.xyz</span>
+  <div class="footer-inner-wrap">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-col-left">
+        <div class="footer-col-label"><span data-lang="en">Connect</span><span data-lang="zh">关注我们</span></div>
+        <div class="footer-links">
+          <a class="footer-link" href="mailto:sukky147@gmail.com">
+            <svg class="footer-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#0A0A0A"/></svg>
+            sukky147@gmail.com
+          </a>
+          <a class="footer-link" href="https://yes-studio.xyz">
+            <svg class="footer-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#0A0A0A"/></svg>
+            yes-studio.xyz
+          </a>
+          <a class="footer-link" href="#">
+            <svg class="footer-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#0A0A0A"/></svg>
+            Instagram
+          </a>
+          <a class="footer-link" href="#">
+            <svg class="footer-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#0A0A0A"/></svg>
+            LinkedIn
+          </a>
+        </div>
+      </div>
+      <div class="footer-col-right">
+        <div class="footer-col-label"><span data-lang="en">Talk to us or ask us anything.</span><span data-lang="zh">随时联系我们。</span></div>
+        <div class="footer-links">
+          <a class="footer-link" href="mailto:sukky147@gmail.com">
+            <svg class="footer-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#0A0A0A"/></svg>
+            <span data-lang="en">Contact Us</span><span data-lang="zh">联系我们</span>
+          </a>
+          <a class="footer-link" href="#">
+            <svg class="footer-link-arrow" viewBox="0 0 16 16" fill="none"><path d="M6.12e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 0L6.59 1.41L12.17 7L7.87e-07 7L6.12e-07 9Z" fill="#0A0A0A"/></svg>
+            <span data-lang="en">Privacy Notice</span><span data-lang="zh">隐私政策</span>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col-backtop">
+        <button class="footer-back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+          <svg viewBox="0 0 16 16" fill="none"><path d="M7 16L7 3.83L1.41 9.41L0 8L8 0L16 8L14.59 9.41L9 3.83L9 16L7 16Z" fill="#0A0A0A"/></svg>
+          Back to top
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-spacer"></div>
+  <div class="footer-wordmark">
+    <div class="container">
+      <div class="footer-wordmark-text">YES STUDIO</div>
+    </div>
+  </div>
   </div>
 </footer>
 
@@ -1460,7 +2161,6 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 const root = document.documentElement;
 const nav = document.getElementById("nav");
 const menuBtn = document.getElementById("menuBtn");
-const themeToggle = document.getElementById("themeToggle");
 const langEn = document.getElementById("langEn");
 const langZh = document.getElementById("langZh");
 
@@ -1474,29 +2174,33 @@ function setLang(lang) {
   updateAiOutput(document.querySelector(".prompt-item.active").dataset.ai);
 }
 
-function setTheme(theme) {
-  root.dataset.theme = theme;
-  themeToggle.textContent = theme === "dark" ? "☼" : "◐";
-  try { localStorage.setItem("yes-theme", theme); } catch (e) {}
-}
-
-try {
-  const savedTheme = localStorage.getItem("yes-theme");
-  setTheme(savedTheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
-} catch (e) {
-  setTheme("light");
-}
-
 langEn.addEventListener("click", () => setLang("en"));
 langZh.addEventListener("click", () => setLang("zh"));
-themeToggle.addEventListener("click", () => setTheme(root.dataset.theme === "dark" ? "light" : "dark"));
 menuBtn.addEventListener("click", () => nav.classList.toggle("open"));
 document.querySelectorAll(".nav-link").forEach(link => link.addEventListener("click", () => nav.classList.remove("open")));
 
-document.addEventListener("pointermove", event => {
-  root.style.setProperty("--mx", event.clientX + "px");
-  root.style.setProperty("--my", event.clientY + "px");
-});
+/* ── CUSTOM CURSOR ── */
+const cursor = document.getElementById("customCursor");
+let cursorX = 0, cursorY = 0;
+let raf;
+
+const clickables = "a, button, [role='button'], .tab, .pricing-cta, .testimonial-btn, .footer-back-top, .footer-link, .prompt-item, .logo-card";
+
+function moveCursor(e) {
+  cursorX = e.clientX;
+  cursorY = e.clientY;
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => {
+    cursor.style.left = cursorX + "px";
+    cursor.style.top = cursorY + "px";
+  });
+  const over = document.elementFromPoint(cursorX, cursorY);
+  const isClickable = over?.closest(clickables);
+  cursor.classList.toggle("visible", !!isClickable);
+}
+
+document.addEventListener("pointermove", moveCursor, { passive: true });
+document.addEventListener("pointerleave", () => cursor.classList.remove("visible"));
 
 document.querySelectorAll(".tab").forEach(tab => {
   tab.addEventListener("click", () => {
@@ -1603,6 +2307,79 @@ window.addEventListener("scroll", () => {
   const drift = Math.round(window.scrollY * .025);
   document.querySelector(".device-hero")?.style.setProperty("--drift", drift + "px");
 }, { passive: true });
+
+/* ── NAV SCROLL: full-width → pill + hide/recall ── */
+let lastScroll = 0;
+const navEl = document.getElementById("nav");
+const SCROLL_THRESHOLD = 80;
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const mode = entry.target.dataset.nav || "dark";
+      navEl.classList.toggle("nav-light", mode === "light");
+    }
+  });
+}, { threshold: 0.3 });
+
+document.querySelectorAll("[data-nav]").forEach(el => sectionObserver.observe(el));
+
+window.addEventListener("scroll", () => {
+  const cur = window.scrollY;
+  navEl.classList.toggle("scrolled", cur > SCROLL_THRESHOLD);
+  if (cur > 200) {
+    navEl.classList.toggle("hide", cur > lastScroll);
+  } else {
+    navEl.classList.remove("hide");
+  }
+  lastScroll = cur;
+}, { passive: true });
+
+/* ── TESTIMONIALS SLIDE ── */
+const tSlideEls = Array.from(document.querySelectorAll(".testimonial-slide"));
+const tTrack = document.getElementById("testimonialTrack");
+let tCurrent = 0;
+let tBusy = false;
+
+function setTrackHeight() {
+  const active = tSlideEls[tCurrent];
+  active.style.position = "relative";
+  tTrack.style.height = active.offsetHeight + "px";
+  active.style.position = "";
+}
+
+setTrackHeight();
+window.addEventListener("resize", setTrackHeight, { passive: true });
+
+function goTestimonial(dir) {
+  if (tBusy) return;
+  tBusy = true;
+
+  const oldIdx = tCurrent;
+  const newIdx = (tCurrent + dir + tSlideEls.length) % tSlideEls.length;
+  const oldEl = tSlideEls[oldIdx];
+  const newEl = tSlideEls[newIdx];
+
+  const outClass = dir > 0 ? "is-leaving-left"   : "is-leaving-right";
+  const inClass  = dir > 0 ? "is-entering-right"  : "is-entering-left";
+
+  oldEl.classList.add(outClass);
+  newEl.classList.add("active", inClass);
+
+  newEl.style.position = "relative";
+  tTrack.style.height = newEl.offsetHeight + "px";
+  newEl.style.position = "";
+
+  setTimeout(() => {
+    oldEl.classList.remove("active", outClass);
+    newEl.classList.remove(inClass);
+    tCurrent = newIdx;
+    tBusy = false;
+  }, 450);
+}
+
+document.getElementById("t-prev").addEventListener("click", () => goTestimonial(-1));
+document.getElementById("t-next").addEventListener("click", () => goTestimonial(1));
 </script>
 </body>
 </html>
