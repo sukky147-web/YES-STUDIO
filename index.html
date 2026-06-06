@@ -274,8 +274,9 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 72px 48px 72px 40px;
-  max-width: 640px;
+  padding: 72px 48px 72px calc((100vw - 1160px) / 2);
+  padding-left: max(20px, calc((100vw - 1160px) / 2));
+  max-width: calc(580px + max(20px, calc((100vw - 1160px) / 2)));
 }
 
 /* Right col — full height bg image */
@@ -296,11 +297,6 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 .hero h1 { color: var(--dark-ink); }
 .hero .hero-copy { color: var(--dark-text); }
 .hero .eyebrow { color: var(--dark-muted); }
-.hero .metric { background: rgba(255,255,255,.04); }
-.hero .metric strong { color: var(--dark-ink); }
-.hero .metric span { color: var(--dark-muted); }
-.hero .mini-metrics { background: var(--dark-line); border-color: var(--dark-line); }
-.hero .pulse { background: var(--accent); }
 
 .eyebrow {
   display: inline-flex;
@@ -540,10 +536,10 @@ h1 {
 }
 
 .hero-copy {
-  max-width: 610px;
+  max-width: 540px;
   color: var(--text);
-  font-size: var(--fs-lg);
-  line-height: var(--lh-lg);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
 }
 
 .hero-actions {
@@ -618,9 +614,10 @@ h1 {
 /* ── HERO MOCKUP ── */
 .hero-mockup {
   position: absolute;
-  right: 32px;
-  top: 48px;
-  width: min(500px, calc(100% - 64px));
+  right: max(20px, calc((100vw - 1160px) / 2));
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(500px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px));
   pointer-events: all;
   background: rgba(0,0,0,.12);
   box-shadow: 0 30px 75px rgba(0,0,0,.3);
@@ -629,12 +626,6 @@ h1 {
   overflow: hidden;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  animation: floatCard 6s ease-in-out infinite;
-  transition: transform .3s ease;
-}
-
-.hero-mockup.tilt:hover {
-  animation-play-state: paused;
 }
 
 .hero-mockup-bar {
@@ -656,9 +647,10 @@ h1 {
 
 .hero-mockup-img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   overflow: hidden;
-  background: transparent;
+  background: #d4c5b0;
+  position: relative;
 }
 
 .hero-mockup-img img {
@@ -669,45 +661,66 @@ h1 {
   display: block;
 }
 
-.hero-mockup-body { padding: 10px; }
+/* Overlay text on mockup hero image */
+.hero-mockup-overlay {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
 
-.hero-mockup-row {
+.hero-mockup-tagline {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,.9);
+  line-height: 1.4;
+  letter-spacing: -.01em;
+  margin-bottom: 10px;
+}
+
+.hero-mockup-cta-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  background: rgba(50,60,40,.85);
+  border-radius: 4px;
+  color: rgba(255,255,255,.9);
+  font-size: 8px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.hero-mockup-body { padding: 0; }
+
+.hero-mockup-products {
   display: grid;
-  grid-template-columns: 1fr 160px;
-  gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 4px;
+  background: rgba(255,255,255,.04);
 }
 
-.hero-mockup-panel {
-  background: rgba(255,255,255,.10);
-  border-radius: 15px;
-  border: 1.26px solid rgba(255,255,255,.12);
-  padding: 16px;
+.hero-mockup-product {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 130px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,.06);
+  height: 80px;
+  border-radius: 4px;
   overflow: hidden;
-  backdrop-filter: blur(8px);
 }
 
-.hero-skeleton {
-  height: 10px;
-  background: rgba(255,255,255,.20);
-  border-radius: 6px;
-  flex-shrink: 0;
+.hero-mockup-product img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
-
-.hero-skeleton.short { width: 55%; }
-.hero-skeleton.mid { width: 78%; }
-.hero-skeleton.full { width: 100%; }
-.hero-skeleton.tall { height: 48px; }
-.hero-skeleton-group { display: flex; flex-direction: column; gap: 4px; }
 
 /* Product card */
 .hero-product-card {
   position: absolute;
-  left: 24px;
-  bottom: 80px;
+  left: max(20px, calc((100vw - 1160px) / 4));
+  bottom: 10%;
   pointer-events: all;
   width: 185px;
   padding: 8px;
@@ -983,6 +996,7 @@ h1 {
   overflow: hidden;
   background: var(--surface-2);
   flex-shrink: 0;
+  border-radius: 14px 14px 0 0;
 }
 
 .visual-img {
@@ -1566,8 +1580,9 @@ main {
 
 @media (max-width: 920px) {
   .pricing-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .pricing-card { height: auto; min-height: 0; }
+  .pricing-card { height: auto; min-height: 0; justify-content: flex-start; gap: 16px; }
   .pricing-moving-border { height: auto; }
+  .pricing-card-top { flex: 1; }
 }
 
 @media (max-width: 620px) {
@@ -1722,7 +1737,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .menu-btn { display: inline-flex; }
   .nav-links {
     position: fixed;
-    top: 68px;
+    top: 62px;
     left: 14px;
     right: 14px;
     display: none;
@@ -1730,21 +1745,23 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
     align-items: stretch;
     border-radius: 14px;
     padding: 8px;
-    background: var(--dark-surface);
-    border: 1px solid var(--dark-line);
+    background: var(--dark-surface) !important;
+    border: 1px solid var(--dark-line) !important;
     box-shadow: 0 16px 40px rgba(0,0,0,.4);
   }
   .nav.open .nav-links { display: flex; animation: fadeUp .2s ease both; }
+  /* Force dark text in dropdown regardless of nav mode */
+  .nav-links .nav-link { color: var(--dark-text) !important; }
+  .nav-links .nav-link:hover { color: var(--dark-ink) !important; background: rgba(255,255,255,.07) !important; }
   .nav-link { padding: 13px 14px; }
   .nav-actions .cta { display: none; }
-  .hero { min-height: auto; padding: 54px 0 30px; }
-  .hero .container { grid-template-columns: 1fr; }
-  .hero-left { padding: 54px 20px 32px; max-width: 100%; }
-  .hero-right { min-height: 360px; }
+  /* menu-btn light mode fix */
+  .nav.nav-light .menu-btn { border-color: var(--line); background: rgba(14,22,6,.06); color: var(--ink); }
+  .hero { min-height: auto; grid-template-columns: 1fr; }
+  .hero-left { padding: 54px 20px 40px; max-width: 100%; justify-content: flex-start; }
+  .hero-right { min-height: 420px; }
   .work-grid, .ai-lab { grid-template-columns: 1fr; }
-  .studio-preview { min-height: 470px; }
-  .device { position: relative; inset: auto; width: 100%; transform: none; }
-  .floating-note { left: 16px; bottom: 0; }
+  .studio-preview { min-height: 420px; }
   .section-head { display: block; }
   .section-lede { margin-top: 16px; }
   .card-grid, .service-panel, .timeline { grid-template-columns: 1fr 1fr; }
@@ -1807,7 +1824,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 <main id="top">
   <section class="hero" data-nav="dark">
     <div class="hero-left">
-        <div class="eyebrow reveal"><span class="pulse"></span><span data-lang="en">AI-powered brand and web studio</span><span data-lang="zh">AI 驱动品牌与网页设计工作室</span></div>
+        <div class="eyebrow reveal"><span data-lang="en">AI-powered brand and web studio</span><span data-lang="zh">AI 驱动品牌与网页设计工作室</span></div>
         <h1 class="reveal delay-1"><span data-lang="en">Launch a brand people remember.</span><span data-lang="zh">打造让人记住的品牌。</span></h1>
         <p class="hero-copy reveal delay-2">
           <span data-lang="en">YES STUDIO helps cross-border founders move from template stores to distinctive, conversion-ready brand systems. Strategy, design, build, and AI content workflow in one fast sprint.</span>
@@ -1816,12 +1833,6 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
         <div class="hero-actions reveal delay-3">
           <a class="btn primary" href="mailto:sukky147@gmail.com"><span data-lang="en">Book a diagnosis</span><span data-lang="zh">预约品牌诊断</span></a>
           <a class="btn" href="#lab"><span data-lang="en">Try the AI lab</span><span data-lang="zh">查看 AI 实验室</span></a>
-        </div>
-        <div class="mini-metrics reveal delay-3">
-          <div class="metric"><strong data-count="12">0</strong><span data-lang="en">avg. days</span><span data-lang="zh">平均交付天数</span></div>
-          <div class="metric"><strong data-count="50">0</strong><span data-lang="en">brands shipped</span><span data-lang="zh">品牌上线</span></div>
-          <div class="metric"><strong data-count="94">0</strong><span data-lang="en">retention %</span><span data-lang="zh">留存率 %</span></div>
-          <div class="metric"><strong data-count="8">0</strong><span data-lang="en">verticals</span><span data-lang="zh">行业覆盖</span></div>
         </div>
       </div>
 
@@ -1837,23 +1848,17 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
           </div>
           <div class="hero-mockup-img">
             <img src="assets/hero-model.png" alt="" draggable="false">
+            <div class="hero-mockup-overlay">
+              <div class="hero-mockup-tagline">Science.<br>Nature.<br>Your Skin.</div>
+              <div class="hero-mockup-cta-btn">Discover your routine</div>
+            </div>
           </div>
           <div class="hero-mockup-body">
-            <div class="hero-mockup-row">
-              <div class="hero-mockup-panel wide">
-                <div class="hero-skeleton short"></div>
-                <div class="hero-skeleton full"></div>
-                <div class="hero-skeleton-group">
-                  <div class="hero-skeleton full tall"></div>
-                  <div class="hero-skeleton half tall"></div>
-                  <div class="hero-skeleton half tall"></div>
-                </div>
-              </div>
-              <div class="hero-mockup-panel">
-                <div class="hero-skeleton full"></div>
-                <div class="hero-skeleton short"></div>
-                <div class="hero-skeleton mid"></div>
-              </div>
+            <div class="hero-mockup-products">
+              <div class="hero-mockup-product"><img src="assets/product-1.png" alt=""></div>
+              <div class="hero-mockup-product"><img src="assets/product-2.png" alt=""></div>
+              <div class="hero-mockup-product"><img src="assets/product-3.png" alt=""></div>
+              <div class="hero-mockup-product"><img src="assets/product-4.png" alt=""></div>
             </div>
           </div>
         </div>
@@ -1862,14 +1867,14 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
         <div class="hero-product-card">
           <img src="assets/hero-product.png" alt="Skin Care Set" class="hero-product-img">
           <div class="hero-product-info">
-            <div class="hero-product-name">SKin Care Set</div>
+            <div class="hero-product-name">Skin Care Set</div>
             <div class="hero-product-price">$20.18</div>
           </div>
           <div class="hero-product-qty">
             <button class="hero-qty-btn" aria-label="Decrease">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.14087 9.9375H15.7351" stroke="white" stroke-width="2.48" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="hero-qty-num">0</div>
+            <div class="hero-qty-num">1</div>
             <button class="hero-qty-btn" aria-label="Increase">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M9.627 3.105V9.316H3.416a.531.531 0 0 0 0 1.062H9.627v6.211a.531.531 0 0 0 1.062 0V10.378h6.21a.531.531 0 0 0 0-1.062h-6.21V3.105a.531.531 0 0 0-1.062 0Z" fill="white" stroke="white" stroke-width="1.24"/></svg>
             </button>
@@ -2406,15 +2411,17 @@ const metricObserver = new IntersectionObserver(entries => {
 document.querySelectorAll("[data-count]").forEach(el => metricObserver.observe(el));
 
 function initTilt(card) {
+  const isHero = card.classList.contains('hero-mockup');
   card.addEventListener("pointermove", e => {
     if (matchMedia("(max-width: 920px)").matches) return;
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - .5;
     const y = (e.clientY - rect.top) / rect.height - .5;
-    card.style.transform = `perspective(900px) rotateX(${y * -6}deg) rotateY(${x * 8}deg) translateY(-4px)`;
+    const base = isHero ? 'translateY(-50%) ' : '';
+    card.style.transform = `${base}perspective(900px) rotateX(${y * -6}deg) rotateY(${x * 8}deg) translateY(-4px)`;
   });
   card.addEventListener("pointerleave", () => {
-    card.style.transform = "";
+    card.style.transform = isHero ? 'translateY(-50%)' : '';
   });
 }
 
