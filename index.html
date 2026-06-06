@@ -136,7 +136,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 .nav.hide { transform: translateY(-100%); }
 
-/* top state — fully transparent, blends with hero */
+/* top state — fully transparent on desktop, solid on mobile */
 .nav-inner {
   min-height: 72px;
   display: flex;
@@ -151,6 +151,13 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 .nav.nav-light .nav-inner {
   background: transparent;
+}
+
+@media (max-width: 920px) {
+  .nav-inner {
+    background: rgba(10,10,10,.96) !important;
+    padding: 0 20px;
+  }
 }
 
 /* scrolled state — pill container */
@@ -235,6 +242,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 
 .nav-spacer { height: 0; }
+@media (max-width: 920px) { .nav-spacer { height: 72px; background: var(--dark-bg); } }
 .icon-btn, .text-btn, .menu-btn {
   min-width: 38px;
   height: 38px;
@@ -612,10 +620,12 @@ h1 {
 /* ── HERO MOCKUP ── */
 .hero-mockup {
   position: absolute;
-  right: max(20px, calc((100vw - 1160px) / 2));
+  right: 4%;
   top: 50%;
   transform: translateY(-50%);
-  width: min(580px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px));
+  width: 38vw;
+  max-width: 860px;
+  min-width: 320px;
   pointer-events: all;
   background: rgba(0,0,0,.12);
   box-shadow: 0 30px 75px rgba(0,0,0,.3);
@@ -624,20 +634,6 @@ h1 {
   overflow: hidden;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-}
-
-@media (min-width: 1600px) {
-  .hero-mockup { width: min(680px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px)); }
-  .hero-left { padding: 72px 64px 72px 120px; }
-  .hero-product-card { width: 220px; }
-  .hero-product-img { height: 190px; }
-}
-
-@media (min-width: 2000px) {
-  .hero-mockup { width: min(800px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px)); }
-  .hero-left { padding: 72px 80px 72px 160px; }
-  .hero-product-card { width: 260px; }
-  .hero-product-img { height: 220px; }
 }
 
 .hero-mockup-bar {
@@ -659,7 +655,9 @@ h1 {
 
 .hero-mockup-img {
   width: 100%;
-  height: 220px;
+  height: 20vw;
+  min-height: 180px;
+  max-height: 400px;
   overflow: hidden;
   background: #d4c5b0;
   position: relative;
@@ -716,7 +714,9 @@ h1 {
   align-items: center;
   justify-content: center;
   background: rgba(255,255,255,.06);
-  height: 80px;
+  height: 6vw;
+  min-height: 70px;
+  max-height: 120px;
   border-radius: 4px;
   overflow: hidden;
 }
@@ -731,10 +731,12 @@ h1 {
 /* Product card */
 .hero-product-card {
   position: absolute;
-  left: max(20px, calc((100vw - 1160px) / 4));
-  bottom: 10%;
+  left: 3%;
+  bottom: 8%;
   pointer-events: all;
-  width: 185px;
+  width: 13vw;
+  min-width: 160px;
+  max-width: 260px;
   padding: 8px;
   background: rgba(255,255,255,.18);
   border-radius: 10px;
@@ -751,7 +753,9 @@ h1 {
 
 .hero-product-img {
   width: 100%;
-  height: 160px;
+  height: 10vw;
+  min-height: 120px;
+  max-height: 220px;
   object-fit: cover;
   border-radius: 5px;
   display: block;
@@ -765,8 +769,45 @@ h1 {
   border: 1px solid rgba(255,255,255,.20);
 }
 
-.hero-product-name { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.3; }
-.hero-product-price { color: rgba(255,255,255,.85); font-size: 13px; font-weight: 500; }
+.hero-product-price {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  color: rgba(255,255,255,.85);
+  font-size: 13px;
+  font-weight: 500;
+  overflow: hidden;
+}
+
+.price-roller {
+  position: relative;
+  overflow: hidden;
+  height: 1.3em;
+  display: inline-block;
+}
+
+.price-digit {
+  display: block;
+  transition: transform .3s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+}
+
+.price-digit.slide-up {
+  animation: priceUp .3s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+.price-digit.slide-down {
+  animation: priceDown .3s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes priceUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes priceDown {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
 
 .hero-product-qty {
   display: flex;
@@ -783,12 +824,29 @@ h1 {
   width: 36px; height: 36px;
   border-radius: 50%;
   background: rgba(255,255,255,.10);
-  border: none;
+  border: 1px solid rgba(255,255,255,.2);
   display: grid;
   place-items: center;
-  cursor: pointer;
+  cursor: none;
   flex-shrink: 0;
+  transition: background .15s ease, transform .15s ease, border-color .15s ease;
 }
+
+.hero-qty-btn:hover {
+  background: rgba(255,255,255,.22);
+  border-color: rgba(255,255,255,.4);
+  transform: scale(1.08);
+}
+
+.hero-qty-btn:active {
+  background: rgba(255,255,255,.35);
+  transform: scale(.94);
+}
+
+/* ── SYSTEM CURSOR HIDDEN ON CLICKABLES ── */
+a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
+.footer-back-top, .footer-link, .prompt-item, .logo-card,
+.hero-qty-btn, .lang-opt, .menu-btn { cursor: none; }
 
 .hero-qty-num {
   color: #fff;
@@ -1831,9 +1889,8 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   </div>
 </nav>
 
-<div class="nav-spacer"></div>
-
 <main id="top">
+<div class="nav-spacer"></div>
   <section class="hero" data-nav="dark">
     <div class="hero-left">
         <div class="eyebrow reveal"><span data-lang="en">AI-powered brand and web studio</span><span data-lang="zh">AI 驱动品牌与网页设计工作室</span></div>
@@ -1880,14 +1937,19 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
           <img src="assets/hero-product.png" alt="Skin Care Set" class="hero-product-img">
           <div class="hero-product-info">
             <div class="hero-product-name">Skin Care Set</div>
-            <div class="hero-product-price">$20.18</div>
+            <div class="hero-product-price">
+              <span class="price-currency">$</span>
+              <span class="price-roller" id="price-roller">
+                <span class="price-digit" id="price-display">20.18</span>
+              </span>
+            </div>
           </div>
           <div class="hero-product-qty">
-            <button class="hero-qty-btn" aria-label="Decrease">
+            <button class="hero-qty-btn" id="qty-dec" aria-label="Decrease">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.14087 9.9375H15.7351" stroke="white" stroke-width="2.48" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
-            <div class="hero-qty-num">1</div>
-            <button class="hero-qty-btn" aria-label="Increase">
+            <div class="hero-qty-num" id="qty-num">1</div>
+            <button class="hero-qty-btn" id="qty-inc" aria-label="Increase">
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M9.627 3.105V9.316H3.416a.531.531 0 0 0 0 1.062H9.627v6.211a.531.531 0 0 0 1.062 0V10.378h6.21a.531.531 0 0 0 0-1.062h-6.21V3.105a.531.531 0 0 0-1.062 0Z" fill="white" stroke="white" stroke-width="1.24"/></svg>
             </button>
           </div>
@@ -2481,6 +2543,51 @@ window.addEventListener("scroll", () => {
 
 // Run once on load
 updateNavMode();
+
+/* ── PRODUCT QTY ── */
+const BASE_PRICE = 20.18;
+let qty = 1;
+const qtyNum = document.getElementById("qty-num");
+const priceDisplay = document.getElementById("price-display");
+
+function animatePrice(newVal, direction) {
+  const el = priceDisplay;
+  const outClass = direction === 'up' ? 'slide-down-out' : 'slide-up-out';
+  const inClass  = direction === 'up' ? 'slide-up' : 'slide-down';
+
+  // Slide current out
+  el.style.transition = 'transform .2s ease, opacity .2s ease';
+  el.style.transform = direction === 'up' ? 'translateY(-100%)' : 'translateY(100%)';
+  el.style.opacity = '0';
+
+  setTimeout(() => {
+    el.textContent = newVal === 0 ? '0.00' : (newVal * BASE_PRICE).toFixed(2);
+    el.style.transition = 'none';
+    el.style.transform = direction === 'up' ? 'translateY(100%)' : 'translateY(-100%)';
+    el.style.opacity = '0';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.style.transition = 'transform .3s cubic-bezier(.22,1,.36,1), opacity .25s ease';
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = '1';
+      });
+    });
+  }, 180);
+}
+
+document.getElementById("qty-dec").addEventListener("click", () => {
+  if (qty > 0) {
+    qty--;
+    qtyNum.textContent = qty;
+    animatePrice(qty, 'down');
+  }
+});
+
+document.getElementById("qty-inc").addEventListener("click", () => {
+  qty++;
+  qtyNum.textContent = qty;
+  animatePrice(qty, 'up');
+});
 
 /* ── TESTIMONIALS SLIDE ── */
 const tSlideEls = Array.from(document.querySelectorAll(".testimonial-slide"));
