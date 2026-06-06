@@ -76,7 +76,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: #0A0A0A; }
 body {
   margin: 0;
   background: var(--bg);
@@ -109,8 +109,8 @@ button { font: inherit; }
 /* ── CUSTOM CURSOR ── */
 .custom-cursor {
   position: fixed;
-  width: 72px;
-  height: 66px;
+  width: 50px;
+  height: 46px;
   pointer-events: none;
   z-index: 9999;
   opacity: 0;
@@ -120,6 +120,9 @@ button { font: inherit; }
 }
 
 .custom-cursor.visible { opacity: 1; }
+
+a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
+.footer-back-top, .footer-link, .prompt-item, .logo-card { cursor: none; }
 
 /* ── NAV ── */
 .nav {
@@ -133,7 +136,7 @@ button { font: inherit; }
 
 .nav.hide { transform: translateY(-100%); }
 
-/* top state — full width, no bg */
+/* top state — full width with solid bg */
 .nav-inner {
   min-height: 72px;
   display: flex;
@@ -141,30 +144,36 @@ button { font: inherit; }
   justify-content: space-between;
   gap: 18px;
   padding: 0;
-  background: transparent;
+  background: rgba(10,10,10,1);
   border-radius: 0;
-  border: none;
   transition: all .35s cubic-bezier(.22,1,.36,1);
+}
+
+.nav.nav-light .nav-inner {
+  background: rgba(255,255,255,1);
 }
 
 /* scrolled state — pill container */
 .nav.scrolled .nav-inner {
   min-height: 52px;
-  margin: 12px auto;
+  margin: 10px auto;
   max-width: 860px;
   width: calc(100% - 48px);
-  padding: 0 16px;
+  padding: 0 20px;
   border-radius: 999px;
+  border-bottom: none;
   background: rgba(10,10,10,.92);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid var(--dark-line);
+  outline: 1px solid var(--dark-line);
 }
 
 .nav.scrolled.nav-light .nav-inner {
   background: rgba(255,255,255,.92);
-  border-color: var(--line);
+  outline-color: var(--line);
 }
+
+.nav.scrolled.nav-light .nav-inner { border-bottom: none; }
 
 /* brand */
 .brand {
@@ -178,20 +187,22 @@ button { font: inherit; }
 }
 
 .brand-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 7px;
+  width: 32px;
+  height: 32px;
   display: grid;
   place-items: center;
-  background: var(--accent);
-  color: var(--dark-bg);
-  border: none;
-  transition: transform .35s ease, border-radius .35s ease;
   flex-shrink: 0;
+  transition: transform .35s ease;
 }
 
-.brand:hover .brand-mark { transform: rotate(8deg) scale(1.04); border-radius: 50%; }
-.brand-mark span { font-size: 12px; font-family: var(--mono); font-weight: 700; }
+.brand-mark svg { width: 32px; height: 32px; display: block; }
+.brand-mark .logo-dark { display: block; }
+.brand-mark .logo-light { display: none; }
+
+.nav.nav-light .brand-mark .logo-dark { display: none; }
+.nav.nav-light .brand-mark .logo-light { display: block; }
+
+.brand:hover .brand-mark { transform: rotate(8deg) scale(1.04); }
 
 /* nav links pill wrapper */
 .nav-links {
@@ -218,13 +229,12 @@ button { font: inherit; }
 
 /* light mode overrides (for scrolled pill on light sections) */
 .nav.nav-light .brand { color: var(--ink); }
-.nav.nav-light .brand-mark { background: var(--ink); color: var(--accent); }
 .nav.nav-light .nav-link { color: var(--text); }
 .nav.nav-light .nav-link:hover { color: var(--ink); background: var(--surface-2); }
 
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 
-.nav-spacer { height: 72px; }
+.nav-spacer { height: 72px; background: var(--dark-bg); position: relative; z-index: 2; }
 .icon-btn, .text-btn, .menu-btn {
   min-width: 38px;
   height: 38px;
@@ -249,46 +259,48 @@ button { font: inherit; }
 .cta:hover .arrow, .btn:hover .arrow { transform: translateX(4px); }
 
 .hero {
-  min-height: calc(100svh - 68px);
-  display: grid;
-  align-items: center;
-  padding: 72px 0 42px;
+  min-height: calc(100svh - 72px);
   overflow: hidden;
   background: var(--dark-bg);
   position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.hero::before {
-  content: none;
+.hero::before { content: none; }
+
+/* Left col — text bottom aligned */
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 72px 48px 72px 40px;
+  max-width: 640px;
 }
 
-.hero .container { position: relative; z-index: 1; }
+/* Right col — full height bg image */
+.hero-right {
+  position: relative;
+  overflow: hidden;
+  background: url('assets/hero-bg.png') center/cover no-repeat;
+}
+
+.hero-right::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.15);
+  z-index: 0;
+}
 
 .hero h1 { color: var(--dark-ink); }
 .hero .hero-copy { color: var(--dark-text); }
-.hero .eyebrow { color: var(--dark-text); }
+.hero .eyebrow { color: var(--dark-muted); }
 .hero .metric { background: rgba(255,255,255,.04); }
 .hero .metric strong { color: var(--dark-ink); }
 .hero .metric span { color: var(--dark-muted); }
 .hero .mini-metrics { background: var(--dark-line); border-color: var(--dark-line); }
-.hero .note-top { color: var(--dark-muted); }
-.hero .note-title { color: var(--dark-ink); }
-.hero .note-copy { color: var(--dark-text); }
-.hero .floating-note { background: rgba(10,10,10,.92); border-color: var(--dark-line-strong); }
-.hero .device { background: rgba(255,255,255,.04); border-color: var(--dark-line); }
-.hero .device-bar { border-color: var(--dark-line); }
-.hero .dot { background: var(--dark-line-strong); }
-.hero .device-panel { background: var(--dark-surface); border-color: var(--dark-line); }
-.hero .device-line { background: var(--dark-surface-2); }
-.hero .device-kpi { background: var(--dark-surface-2); border-color: var(--dark-line); }
 .hero .pulse { background: var(--accent); }
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(340px, .96fr);
-  gap: 46px;
-  align-items: center;
-}
 
 .eyebrow {
   display: inline-flex;
@@ -365,26 +377,35 @@ h1 {
 
 /* ── NAV CTA accent ── */
 .cta {
-  height: 34px;
+  height: 36px;
   padding: 0 16px;
-  border: none;
-  border-radius: var(--radius);
-  background: var(--accent);
-  color: var(--ink);
+  border: 1px solid var(--dark-line);
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  color: var(--dark-ink);
   display: inline-flex;
   align-items: center;
   gap: 7px;
   font-size: var(--fs-xs);
   font-family: var(--mono);
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: var(--ls-caps);
   text-transform: uppercase;
-  transition: transform .18s ease, opacity .18s ease;
+  transition: transform .18s ease, background .18s ease;
   text-decoration: none;
+  white-space: nowrap;
 }
 
-.cta:hover { transform: translateY(-2px); opacity: .88; }
+.cta:hover { transform: translateY(-1px); background: rgba(255,255,255,.14); }
 .cta .arrow { display: none; }
+
+.nav.nav-light .cta {
+  border-color: var(--line);
+  background: rgba(14,22,6,.06);
+  color: var(--ink);
+}
+
+.nav.nav-light .cta:hover { background: var(--surface-2); }
 
 /* ── TABLIST ── */
 .tab-row {
@@ -423,10 +444,7 @@ h1 {
 }
 
 /* ── FOOTER WOLFF OLINS STYLE ── */
-footer {
-  background: var(--accent);
-  padding: 0;
-}
+/* footer base — see sticky block below */
 
 .footer-top {
   display: grid;
@@ -591,112 +609,175 @@ footer {
 }
 
 .studio-preview {
-  position: relative;
-  min-height: 540px;
-  perspective: 1100px;
-}
-
-.device {
   position: absolute;
-  inset: 36px 0 auto auto;
-  width: min(440px, 100%);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  box-shadow: var(--shadow);
-  padding: 12px;
-  transform: rotateY(-10deg) rotateX(4deg);
-  transform-style: preserve-3d;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── HERO MOCKUP ── */
+.hero-mockup {
+  position: absolute;
+  right: 32px;
+  top: 48px;
+  width: min(500px, calc(100% - 64px));
+  pointer-events: all;
+  background: rgba(0,0,0,.12);
+  box-shadow: 0 30px 75px rgba(0,0,0,.3);
+  border-radius: 22px;
+  border: 1.26px solid rgba(255,255,255,.18);
+  overflow: hidden;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   animation: floatCard 6s ease-in-out infinite;
+  transition: transform .3s ease;
 }
 
-@keyframes floatCard {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 0 -12px; }
+.hero-mockup.tilt:hover {
+  animation-play-state: paused;
 }
 
-.device-bar {
-  height: 32px;
+.hero-mockup-bar {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 8px;
-  border-bottom: 1px solid var(--line);
-  margin: -2px -2px 12px;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1.26px solid rgba(255,255,255,.10);
+  height: 38px;
 }
 
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
-.device-hero {
-  min-height: 190px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background:
-    linear-gradient(135deg, color-mix(in srgb, var(--accent) 70%, #fff), transparent 48%),
-    linear-gradient(315deg, color-mix(in srgb, var(--accent-2) 75%, #000), transparent 52%),
-    var(--surface-2);
-  position: relative;
+.hero-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.25);
+  display: block;
+  flex-shrink: 0;
+}
+
+.hero-mockup-img {
+  width: 100%;
+  height: 200px;
   overflow: hidden;
+  background: transparent;
 }
 
-.device-hero::before {
-  content: "";
-  position: absolute;
-  inset: 18px;
-  border: 1px solid rgba(255,255,255,.42);
-  border-radius: 10px;
-  transform: translateY(var(--drift, 0));
+.hero-mockup-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
 }
 
-.device-grid {
+.hero-mockup-body { padding: 10px; }
+
+.hero-mockup-row {
   display: grid;
-  grid-template-columns: 1.3fr .7fr;
-  gap: 10px;
-  margin-top: 10px;
+  grid-template-columns: 1fr 160px;
+  gap: 8px;
 }
 
-.device-panel {
-  min-height: 116px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface);
-  padding: 14px;
-  overflow: hidden;
-}
-
-.device-line {
-  height: 9px;
-  border-radius: 999px;
-  background: var(--surface-2);
-  margin-bottom: 9px;
-}
-
-.device-line.short { width: 56%; }
-.device-line.mid { width: 76%; }
-.device-kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
-.device-kpi { height: 42px; border-radius: 8px; background: var(--surface-2); border: 1px solid var(--line); }
-
-.floating-note {
-  position: absolute;
-  left: 0;
-  bottom: 54px;
-  width: min(270px, 70%);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--surface) 88%, transparent);
-  backdrop-filter: blur(16px);
-  box-shadow: var(--shadow-soft);
+.hero-mockup-panel {
+  background: rgba(255,255,255,.10);
+  border-radius: 15px;
+  border: 1.26px solid rgba(255,255,255,.12);
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 130px;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.hero-skeleton {
+  height: 10px;
+  background: rgba(255,255,255,.20);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.hero-skeleton.short { width: 55%; }
+.hero-skeleton.mid { width: 78%; }
+.hero-skeleton.full { width: 100%; }
+.hero-skeleton.tall { height: 48px; }
+.hero-skeleton-group { display: flex; flex-direction: column; gap: 4px; }
+
+/* Product card */
+.hero-product-card {
+  position: absolute;
+  left: 24px;
+  bottom: 80px;
+  pointer-events: all;
+  width: 185px;
+  padding: 8px;
+  background: rgba(255,255,255,.18);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.28);
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
   animation: floatNote 5s ease-in-out infinite;
+  z-index: 2;
 }
 
-@keyframes floatNote {
-  0%, 100% { translate: 0 0; }
-  50% { translate: 10px -8px; }
+.hero-product-img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 5px;
+  display: block;
+  box-shadow: 0 2.5px 3.1px rgba(0,0,0,.25);
 }
 
-.note-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; font-family: var(--mono); }
-.note-title { margin: 12px 0 8px; font-weight: 760; letter-spacing: -.035em; }
-.note-copy { margin: 0; color: var(--text); font-size: 13px; }
+.hero-product-info {
+  padding: 6px 8px;
+  background: rgba(255,255,255,.15);
+  border-radius: 7px;
+  border: 1px solid rgba(255,255,255,.20);
+}
+
+.hero-product-name { color: #fff; font-size: 13px; font-weight: 700; line-height: 1.3; }
+.hero-product-price { color: rgba(255,255,255,.85); font-size: 13px; font-weight: 500; }
+
+.hero-product-qty {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: rgba(255,255,255,.15);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.20);
+  height: 44px;
+}
+
+.hero-qty-btn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.10);
+  border: none;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.hero-qty-num {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,.25);
+  min-width: 36px;
+  text-align: center;
+}
+
+@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes floatNote { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
 
 /* ── LOGO TICKER ── */
 .logo-strip {
@@ -822,9 +903,7 @@ footer {
   border-radius: 14px;
   border: 1px solid var(--line);
   background: var(--surface-2);
-  overflow: hidden;
-  transform: translateZ(0);
-  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  transition: border-color .22s ease, box-shadow .22s ease;
 }
 
 [data-theme="dark"] .glass-card {
@@ -843,13 +922,11 @@ footer {
 }
 
 .glass-card:hover {
-  transform: translateY(-5px);
   border-color: var(--line-strong);
   box-shadow: var(--shadow-soft);
 }
 
 .glass-card:hover::after { opacity: 1; }
-.card-num { color: var(--muted); font-family: var(--mono); font-size: 12px; }
 .card-title { margin: 18px 0 10px; font-size: var(--fs-xl); line-height: var(--lh-xl); letter-spacing: var(--ls-heading); font-weight: 400; }
 .card-copy { color: var(--text); margin: 0; font-size: 14px; }
 
@@ -897,74 +974,72 @@ footer {
 .work-card {
   min-height: 456px;
   padding: 0;
+  border-radius: 14px;
 }
 
 .visual {
   min-height: 260px;
-  border-bottom: 1px solid var(--line);
   position: relative;
   overflow: hidden;
   background: var(--surface-2);
+  flex-shrink: 0;
 }
 
-.visual.beauty {
-  background:
-    linear-gradient(135deg, rgba(240,83,61,.6), transparent 48%),
-    linear-gradient(45deg, rgba(255,255,255,.35), transparent 50%),
-    #eadfd6;
+.visual-img {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform .4s ease;
 }
 
-.visual.home {
-  background:
-    linear-gradient(135deg, rgba(20,108,99,.5), transparent 48%),
-    linear-gradient(45deg, rgba(255,255,255,.35), transparent 50%),
-    #d8d5c7;
+.work-card:hover .visual-img { transform: scale(1.04); }
+
+.work-body {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.visual.tech {
-  background:
-    linear-gradient(135deg, rgba(51,92,255,.55), transparent 48%),
-    linear-gradient(45deg, rgba(255,255,255,.32), transparent 50%),
-    #d9e1ee;
+.card-num {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--text);
 }
 
-[data-theme="dark"] .visual.beauty { background: linear-gradient(135deg, rgba(255,115,95,.58), transparent 48%), #34201d; }
-[data-theme="dark"] .visual.home { background: linear-gradient(135deg, rgba(89,195,181,.52), transparent 48%), #152c2a; }
-[data-theme="dark"] .visual.tech { background: linear-gradient(135deg, rgba(126,160,255,.55), transparent 48%), #182033; }
-
-.visual::before {
-  content: "";
-  position: absolute;
-  inset: 18px;
-  border: 1px solid rgba(255,255,255,.45);
-  border-radius: 12px;
+.card-title {
+  margin: 0;
+  font-size: var(--fs-xl);
+  line-height: var(--lh-xl);
+  letter-spacing: var(--ls-heading);
+  font-weight: 400;
+  color: var(--ink);
 }
 
-.visual::after {
-  content: attr(data-title);
-  position: absolute;
-  left: 24px;
-  bottom: 18px;
-  color: rgba(255,255,255,.78);
-  font-size: clamp(42px, 8vw, 84px);
-  line-height: .8;
-  font-weight: 800;
-  letter-spacing: -.08em;
+.card-copy {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-sm);
+  color: var(--text);
 }
 
-.work-body { padding: 24px; }
 .work-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
+  gap: 6px;
+  margin-top: 4px;
 }
 
 .pill {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 6px 9px;
-  color: var(--muted);
+  color: var(--text);
   font-family: var(--mono);
   font-size: 11px;
 }
@@ -1212,7 +1287,7 @@ footer {
   padding: 0;
   position: sticky;
   bottom: 0;
-  z-index: 0;
+  z-index: 1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -1230,8 +1305,9 @@ footer {
 
 main {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   background: var(--bg);
+  min-height: 100vh;
 }
 
 .footer-wordmark {
@@ -1662,7 +1738,10 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .nav-link { padding: 13px 14px; }
   .nav-actions .cta { display: none; }
   .hero { min-height: auto; padding: 54px 0 30px; }
-  .hero-grid, .work-grid, .ai-lab { grid-template-columns: 1fr; }
+  .hero .container { grid-template-columns: 1fr; }
+  .hero-left { padding: 54px 20px 32px; max-width: 100%; }
+  .hero-right { min-height: 360px; }
+  .work-grid, .ai-lab { grid-template-columns: 1fr; }
   .studio-preview { min-height: 470px; }
   .device { position: relative; inset: auto; width: 100%; transform: none; }
   .floating-note { left: 16px; bottom: 0; }
@@ -1693,7 +1772,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 <body>
 <div class="noise" aria-hidden="true"></div>
 <div class="custom-cursor" id="customCursor" aria-hidden="true">
-  <svg width="72" height="66" viewBox="0 0 124 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="50" height="46" viewBox="0 0 124 115" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M123.387 102.217L28.9153 17.4722L95.48 16.8486L95.2626 -0.00046299L1.41174e-06 0.892011L0.892475 96.1547L17.6825 95.9974L17.119 29.4916L111.591 114.236L123.387 102.217Z" fill="#FFF84B"/>
   </svg>
 </div>
@@ -1701,7 +1780,10 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 <nav class="nav" id="nav">
   <div class="container nav-inner">
     <a class="brand" href="#top" aria-label="YES STUDIO home">
-      <span class="brand-mark"><span>YES</span></span>
+      <span class="brand-mark">
+        <svg class="logo-dark" width="32" height="32" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="55.1082" cy="55.1082" r="55.1082" fill="#F1FF00"/><path d="M73.0395 30.9377C63.6008 20.5293 40.2274 26.4048 38.6848 38.8528C36.2685 58.3515 70.0207 66.2024 72.6192 51.8384C75.2177 37.4744 27.7278 44.0142 34.3886 68.8715C39.7087 88.7252 80.2534 87.6704 80.7157 64.6816" stroke="#0E0F00" stroke-width="9.66215"/></svg>
+        <svg class="logo-light" width="32" height="32" viewBox="0 0 106 106" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="52.5168" cy="52.5168" r="52.5168" fill="black"/><path d="M39.9041 47.8838C47.6845 57.9187 67.2924 59.9691 69.2043 49.401C70.8572 40.264 51.2429 40.0026 39.9041 47.8838Z" fill="black"/><path d="M69.6048 29.4831C60.6099 19.5641 38.3355 25.1633 36.8655 37.026C34.5628 55.6079 66.7279 63.0895 69.2043 49.401C71.6806 35.7124 26.4237 41.9447 32.7714 65.6331C37.8413 84.5533 76.4795 83.5481 76.92 61.6402" stroke="#F1FF00" stroke-width="9.20781"/></svg>
+      </span>
       <span>YES STUDIO</span>
     </a>
     <div class="nav-links" id="navLinks">
@@ -1714,7 +1796,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
         <button class="lang-opt active" id="langEn" type="button">EN</button>
         <button class="lang-opt" id="langZh" type="button">中文</button>
       </div>
-      <a class="cta" href="mailto:sukky147@gmail.com"><span data-lang="en">Start</span><span data-lang="zh">联系</span></a>
+      <a class="cta" href="mailto:sukky147@gmail.com"><span data-lang="en">Contact Us</span><span data-lang="zh">联系</span></a>
       <button class="menu-btn" id="menuBtn" type="button" aria-label="Open navigation">☰</button>
     </div>
   </div>
@@ -1724,8 +1806,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 
 <main id="top">
   <section class="hero" data-nav="dark">
-    <div class="container hero-grid">
-      <div>
+    <div class="hero-left">
         <div class="eyebrow reveal"><span class="pulse"></span><span data-lang="en">AI-powered brand and web studio</span><span data-lang="zh">AI 驱动品牌与网页设计工作室</span></div>
         <h1 class="reveal delay-1"><span data-lang="en">Launch a brand people remember.</span><span data-lang="zh">打造让人记住的品牌。</span></h1>
         <p class="hero-copy reveal delay-2">
@@ -1744,31 +1825,59 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
         </div>
       </div>
 
-      <div class="studio-preview reveal delay-2" aria-label="Animated website preview">
-        <div class="device tilt">
-          <div class="device-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-          <div class="device-hero"></div>
-          <div class="device-grid">
-            <div class="device-panel">
-              <div class="device-line short"></div>
-              <div class="device-line mid"></div>
-              <div class="device-line"></div>
-              <div class="device-kpis"><div class="device-kpi"></div><div class="device-kpi"></div><div class="device-kpi"></div></div>
-            </div>
-            <div class="device-panel">
-              <div class="device-line"></div>
-              <div class="device-line short"></div>
-              <div class="device-line mid"></div>
+      <div class="hero-right">
+        <div class="studio-preview reveal delay-2" aria-label="Animated website preview">
+
+        <!-- Main browser mockup -->
+        <div class="hero-mockup tilt">
+          <div class="hero-mockup-bar">
+            <span class="hero-dot"></span>
+            <span class="hero-dot"></span>
+            <span class="hero-dot"></span>
+          </div>
+          <div class="hero-mockup-img">
+            <img src="assets/hero-model.png" alt="" draggable="false">
+          </div>
+          <div class="hero-mockup-body">
+            <div class="hero-mockup-row">
+              <div class="hero-mockup-panel wide">
+                <div class="hero-skeleton short"></div>
+                <div class="hero-skeleton full"></div>
+                <div class="hero-skeleton-group">
+                  <div class="hero-skeleton full tall"></div>
+                  <div class="hero-skeleton half tall"></div>
+                  <div class="hero-skeleton half tall"></div>
+                </div>
+              </div>
+              <div class="hero-mockup-panel">
+                <div class="hero-skeleton full"></div>
+                <div class="hero-skeleton short"></div>
+                <div class="hero-skeleton mid"></div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="floating-note">
-          <div class="note-top"><span>LIVE SPRINT</span><span>02:14</span></div>
-          <div class="note-title"><span data-lang="en">Brand system generated</span><span data-lang="zh">品牌系统已生成</span></div>
-          <p class="note-copy"><span data-lang="en">Voice, palette, homepage copy, product page sections, SEO prompts.</span><span data-lang="zh">品牌语气、配色、首页文案、产品页模块、SEO 提示词。</span></p>
+
+        <!-- Product card float -->
+        <div class="hero-product-card">
+          <img src="assets/hero-product.png" alt="Skin Care Set" class="hero-product-img">
+          <div class="hero-product-info">
+            <div class="hero-product-name">SKin Care Set</div>
+            <div class="hero-product-price">$20.18</div>
+          </div>
+          <div class="hero-product-qty">
+            <button class="hero-qty-btn" aria-label="Decrease">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4.14087 9.9375H15.7351" stroke="white" stroke-width="2.48" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <div class="hero-qty-num">0</div>
+            <button class="hero-qty-btn" aria-label="Increase">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M9.627 3.105V9.316H3.416a.531.531 0 0 0 0 1.062H9.627v6.211a.531.531 0 0 0 1.062 0V10.378h6.21a.531.531 0 0 0 0-1.062h-6.21V3.105a.531.531 0 0 0-1.062 0Z" fill="white" stroke="white" stroke-width="1.24"/></svg>
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
+
+      </div><!-- /studio-preview -->
+    </div><!-- /hero-right -->
   </section>
 
   <div class="logo-strip" aria-label="Partner logos" data-nav="light">
@@ -1860,7 +1969,9 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
       </div>
       <div class="work-grid">
         <article class="glass-card work-card tilt reveal">
-          <div class="visual beauty" data-title="Aura"></div>
+          <div class="visual">
+            <img src="assets/work-aura.png" alt="Aura Skincare" class="visual-img">
+          </div>
           <div class="work-body">
             <span class="card-num">Beauty / Shopify launch</span>
             <h3 class="card-title"><span data-lang="en">Aura Skincare full launch</span><span data-lang="zh">Aura 护肤品牌上线</span></h3>
@@ -1870,18 +1981,22 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
         </article>
         <div class="card-grid" style="grid-template-columns:1fr;">
           <article class="glass-card work-card tilt reveal delay-1">
-            <div class="visual home" data-title="Cedar"></div>
+            <div class="visual">
+              <img src="assets/work-urban-dunk.png" alt="Urban Dunk" class="visual-img">
+            </div>
             <div class="work-body">
               <span class="card-num">Homeware / Redesign</span>
               <h3 class="card-title"><span data-lang="en">CedarHome conversion refresh</span><span data-lang="zh">CedarHome 转化改版</span></h3>
-              <div class="work-meta"><span class="pill">9d</span><span class="pill">-52% bounce</span><span class="pill">2.1x GMV</span></div>
+              <div class="work-meta"><span class="pill">3week</span><span class="pill">-52% bounce</span><span class="pill">2.1x GMV</span></div>
             </div>
           </article>
           <article class="glass-card work-card tilt reveal delay-2">
-            <div class="visual tech" data-title="Nova"></div>
+            <div class="visual">
+              <img src="assets/work-cutemart.png" alt="CuteMart" class="visual-img">
+            </div>
             <div class="work-body">
               <span class="card-num">Consumer tech / AI content</span>
-              <h3 class="card-title"><span data-lang="en">NovaTech multilingual engine</span><span data-lang="zh">NovaTech 多语言内容引擎</span></h3>
+              <h3 class="card-title"><span data-lang="en">CuteMart Website</span><span data-lang="zh">CuteMart 网站</span></h3>
               <div class="work-meta"><span class="pill">500+ SKUs</span><span class="pill">6 languages</span><span class="pill">-70% cost</span></div>
             </div>
           </article>
@@ -2290,39 +2405,48 @@ const metricObserver = new IntersectionObserver(entries => {
 }, { threshold: .7 });
 document.querySelectorAll("[data-count]").forEach(el => metricObserver.observe(el));
 
-document.querySelectorAll(".tilt").forEach(card => {
-  card.addEventListener("pointermove", event => {
+function initTilt(card) {
+  card.addEventListener("pointermove", e => {
     if (matchMedia("(max-width: 920px)").matches) return;
     const rect = card.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width - .5;
-    const y = (event.clientY - rect.top) / rect.height - .5;
-    card.style.transform = `perspective(900px) rotateX(${y * -5}deg) rotateY(${x * 6}deg) translateY(-3px)`;
+    const x = (e.clientX - rect.left) / rect.width - .5;
+    const y = (e.clientY - rect.top) / rect.height - .5;
+    card.style.transform = `perspective(900px) rotateX(${y * -6}deg) rotateY(${x * 8}deg) translateY(-4px)`;
   });
   card.addEventListener("pointerleave", () => {
     card.style.transform = "";
   });
-});
+}
+
+document.querySelectorAll(".tilt").forEach(initTilt);
 
 window.addEventListener("scroll", () => {
   const drift = Math.round(window.scrollY * .025);
   document.querySelector(".device-hero")?.style.setProperty("--drift", drift + "px");
 }, { passive: true });
 
-/* ── NAV SCROLL: full-width → pill + hide/recall ── */
+/* ── NAV SCROLL: full-width → pill + hide/recall + light/dark ── */
 let lastScroll = 0;
 const navEl = document.getElementById("nav");
 const SCROLL_THRESHOLD = 80;
 
-const sectionObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const mode = entry.target.dataset.nav || "dark";
-      navEl.classList.toggle("nav-light", mode === "light");
-    }
-  });
-}, { threshold: 0.3 });
-
-document.querySelectorAll("[data-nav]").forEach(el => sectionObserver.observe(el));
+function updateNavMode() {
+  const navH = navEl.offsetHeight;
+  // Find which section is at the top of viewport (just below nav)
+  const sections = Array.from(document.querySelectorAll("[data-nav]"))
+    .filter(el => !el.closest("footer")); // ignore footer
+  let current = null;
+  for (const el of sections) {
+    const rect = el.getBoundingClientRect();
+    if (rect.top <= navH + 10) current = el;
+  }
+  if (current) {
+    const mode = current.dataset.nav || "dark";
+    navEl.classList.toggle("nav-light", mode === "light");
+  } else {
+    navEl.classList.remove("nav-light");
+  }
+}
 
 window.addEventListener("scroll", () => {
   const cur = window.scrollY;
@@ -2333,7 +2457,11 @@ window.addEventListener("scroll", () => {
     navEl.classList.remove("hide");
   }
   lastScroll = cur;
+  updateNavMode();
 }, { passive: true });
+
+// Run once on load
+updateNavMode();
 
 /* ── TESTIMONIALS SLIDE ── */
 const tSlideEls = Array.from(document.querySelectorAll(".testimonial-slide"));
