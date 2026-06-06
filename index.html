@@ -136,21 +136,21 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 .nav.hide { transform: translateY(-100%); }
 
-/* top state — full width with solid bg */
+/* top state — fully transparent, blends with hero */
 .nav-inner {
   min-height: 72px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 0;
-  background: rgba(10,10,10,1);
+  padding: 0 80px;
+  background: transparent;
   border-radius: 0;
   transition: all .35s cubic-bezier(.22,1,.36,1);
 }
 
 .nav.nav-light .nav-inner {
-  background: rgba(255,255,255,1);
+  background: transparent;
 }
 
 /* scrolled state — pill container */
@@ -234,7 +234,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 
-.nav-spacer { height: 72px; background: var(--dark-bg); position: relative; z-index: 2; }
+.nav-spacer { height: 0; }
 .icon-btn, .text-btn, .menu-btn {
   min-width: 38px;
   height: 38px;
@@ -274,9 +274,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 72px 48px 72px calc((100vw - 1160px) / 2);
-  padding-left: max(20px, calc((100vw - 1160px) / 2));
-  max-width: calc(580px + max(20px, calc((100vw - 1160px) / 2)));
+  padding: 72px 48px 72px 80px;
 }
 
 /* Right col — full height bg image */
@@ -617,7 +615,7 @@ h1 {
   right: max(20px, calc((100vw - 1160px) / 2));
   top: 50%;
   transform: translateY(-50%);
-  width: min(500px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px));
+  width: min(580px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px));
   pointer-events: all;
   background: rgba(0,0,0,.12);
   box-shadow: 0 30px 75px rgba(0,0,0,.3);
@@ -626,6 +624,20 @@ h1 {
   overflow: hidden;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+}
+
+@media (min-width: 1600px) {
+  .hero-mockup { width: min(680px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px)); }
+  .hero-left { padding: 72px 64px 72px 120px; }
+  .hero-product-card { width: 220px; }
+  .hero-product-img { height: 190px; }
+}
+
+@media (min-width: 2000px) {
+  .hero-mockup { width: min(800px, calc(100% - max(20px, calc((100vw - 1160px) / 2)) - 20px)); }
+  .hero-left { padding: 72px 80px 72px 160px; }
+  .hero-product-card { width: 260px; }
+  .hero-product-img { height: 220px; }
 }
 
 .hero-mockup-bar {
@@ -1795,7 +1807,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 </div>
 
 <nav class="nav" id="nav">
-  <div class="container nav-inner">
+  <div class="nav-inner">
     <a class="brand" href="#top" aria-label="YES STUDIO home">
       <span class="brand-mark">
         <svg class="logo-dark" width="32" height="32" viewBox="0 0 111 111" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="55.1082" cy="55.1082" r="55.1082" fill="#F1FF00"/><path d="M73.0395 30.9377C63.6008 20.5293 40.2274 26.4048 38.6848 38.8528C36.2685 58.3515 70.0207 66.2024 72.6192 51.8384C75.2177 37.4744 27.7278 44.0142 34.3886 68.8715C39.7087 88.7252 80.2534 87.6704 80.7157 64.6816" stroke="#0E0F00" stroke-width="9.66215"/></svg>
