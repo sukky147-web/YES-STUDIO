@@ -620,9 +620,9 @@ h1 {
 /* ── HERO MOCKUP ── */
 .hero-mockup {
   position: absolute;
-  right: 4%;
+  left: 50%;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   width: 38vw;
   max-width: 860px;
   min-width: 320px;
@@ -731,8 +731,8 @@ h1 {
 /* Product card */
 .hero-product-card {
   position: absolute;
-  left: 3%;
-  bottom: 8%;
+  left: 5%;
+  bottom: 10%;
   pointer-events: all;
   width: 13vw;
   min-width: 160px;
@@ -1917,10 +1917,6 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
           </div>
           <div class="hero-mockup-img">
             <img src="assets/hero-model.png" alt="" draggable="false">
-            <div class="hero-mockup-overlay">
-              <div class="hero-mockup-tagline">Science.<br>Nature.<br>Your Skin.</div>
-              <div class="hero-mockup-cta-btn">Discover your routine</div>
-            </div>
           </div>
           <div class="hero-mockup-body">
             <div class="hero-mockup-products">
@@ -2491,11 +2487,11 @@ function initTilt(card) {
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - .5;
     const y = (e.clientY - rect.top) / rect.height - .5;
-    const base = isHero ? 'translateY(-50%) ' : '';
-    card.style.transform = `${base}perspective(900px) rotateX(${y * -6}deg) rotateY(${x * 8}deg) translateY(-4px)`;
+    const base = isHero ? 'translate(-50%, -50%) ' : '';
+    card.style.transform = `${base}perspective(900px) rotateX(${y * -6}deg) rotateY(${x * 8}deg)`;
   });
   card.addEventListener("pointerleave", () => {
-    card.style.transform = isHero ? 'translateY(-50%)' : '';
+    card.style.transform = isHero ? 'translate(-50%, -50%)' : '';
   });
 }
 
