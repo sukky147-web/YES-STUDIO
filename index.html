@@ -333,8 +333,9 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.15);
-  z-index: 0;
+  background: linear-gradient(to right, var(--dark-bg) 0%, transparent 35%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .hero h1 { color: var(--dark-ink); }
@@ -2290,6 +2291,7 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 }
 .hero-btn.delay-4 { animation-delay: 1.3s !important; }
 .hero-btn.delay-5 { animation-delay: 1.55s !important; }
+.hero-btn.reveal.in:hover { transform: translateY(-2px) !important; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
