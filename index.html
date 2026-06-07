@@ -122,7 +122,9 @@ button { font: inherit; }
 .custom-cursor.visible { opacity: 1; }
 
 a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
-.footer-back-top, .footer-link, .prompt-item, .logo-card { cursor: none; }
+.footer-back-top, .footer-link, .prompt-item, .logo-card,
+.lab-cat, [tabindex], label { cursor: none; }
+.lab-input, input, textarea, select { cursor: text; }
 
 /* ── NAV ── */
 .nav {
@@ -132,6 +134,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   right: 0;
   z-index: 100;
   transition: transform .35s cubic-bezier(.22,1,.36,1);
+  animation: navDropIn .9s cubic-bezier(.22,1,.36,1) both;
 }
 
 
@@ -667,6 +670,7 @@ h1 {
   box-shadow: 0 30px 75px rgba(0,0,0,.3);
   border-radius: 22px;
   border: 1.26px solid rgba(255,255,255,.18);
+  animation: floatCard 6s ease-in-out infinite;
   overflow: hidden;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -783,7 +787,8 @@ h1 {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255,255,255,.28);
   box-shadow: 0 8px 32px rgba(0,0,0,.25);
-  animation: floatNote 5s ease-in-out infinite;
+  animation: floatNote 4s ease-in-out infinite;
+  animation-delay: -1.5s;
   z-index: 2;
 }
 
@@ -897,8 +902,8 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   text-align: center;
 }
 
-@keyframes floatCard { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-@keyframes floatNote { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+@keyframes floatCard { 0%,100%{transform:translate(-50%,-50%) translateY(0)} 50%{transform:translate(-50%,-50%) translateY(-18px)} }
+@keyframes floatNote { 0%,100%{transform:translateY(0) rotate(-1deg)} 50%{transform:translateY(-22px) rotate(1deg)} }
 
 /* ── LOGO TICKER ── */
 .logo-strip {
@@ -2254,17 +2259,58 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity .7s ease, transform .7s ease;
+  transform: translateY(28px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
 }
 .reveal.in { opacity: 1; transform: translateY(0); }
-.delay-1 { transition-delay: .08s; }
-.delay-2 { transition-delay: .16s; }
-.delay-3 { transition-delay: .24s; }
+.delay-1 { transition-delay: .11s; }
+.delay-2 { transition-delay: .21s; }
+.delay-3 { transition-delay: .34s; }
+.delay-4 { transition-delay: .44s; }
+.delay-5 { transition-delay: .56s; }
+
+/* Eyebrow: slide from right */
+.eyebrow.reveal {
+  transform: translateX(40px);
+}
+.eyebrow.reveal.in {
+  transform: translateX(0);
+}
+
+/* Hero buttons: scale jelly from center */
+.hero-btn.reveal {
+  opacity: 0;
+  transform: scale(0.4);
+  transition: none;
+}
+.hero-btn.reveal.in {
+  animation: btnScaleIn .9s cubic-bezier(.34,1.56,.64,1) both;
+  opacity: 1;
+  transform: scale(1);
+}
+.hero-btn.delay-4 { animation-delay: 1.3s !important; }
+.hero-btn.delay-5 { animation-delay: 1.55s !important; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes navDropIn {
+  from { opacity: 0; transform: translateY(-100%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes btnScaleIn {
+  0%   { opacity: 0; transform: scale(0.4); }
+  60%  { transform: scale(1.08); }
+  80%  { transform: scale(0.96); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes eyebrowSlideIn {
+  from { opacity: 0; transform: translateX(40px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2368,20 +2414,20 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 <div class="nav-spacer"></div>
   <section class="hero" data-nav="dark">
     <div class="hero-left">
-        <div class="eyebrow reveal"><span data-lang="en">Bay Area · AI Powered · Cross Border E-commerce</span><span data-lang="zh">湾区 · AI 驱动 · 跨境电商</span></div>
-        <h1 class="reveal delay-1"><span data-lang="en">Stop losing sales to a brand that doesn't convert.</span><span data-lang="zh">别让一个没有说服力的品牌，替你挡住了客户。</span></h1>
-        <p class="hero-copy reveal delay-2">
+        <div class="eyebrow reveal" style="animation-delay:.3s;transition-delay:.3s"><span data-lang="en">Bay Area · AI Powered · Cross Border E-commerce</span><span data-lang="zh">湾区 · AI 驱动 · 跨境电商</span></div>
+        <h1 class="reveal" style="transition-delay:.65s"><span data-lang="en">Stop losing sales to a brand that doesn't convert.</span><span data-lang="zh">别让一个没有说服力的品牌，替你挡住了客户。</span></h1>
+        <p class="hero-copy reveal" style="transition-delay:1s">
           <span data-lang="en">YES STUDIO is a Bay Area design studio built for cross border founders. We design brands that earn trust, tell a real story, and turn clicks into customers in English and Chinese, shipped fast.</span>
           <span data-lang="zh">YES STUDIO 是一家专为跨境创始人打造的湾区设计工作室。我们做的不是网站，是让人记住、让人信任、让人下单的品牌系统  中英双语，快速交付。</span>
         </p>
-        <div class="hero-actions reveal delay-3">
-          <a class="btn primary" href="mailto:sukky147@gmail.com"><span data-lang="en">Book a Free Diagnosis</span><span data-lang="zh">预约免费品牌诊断</span></a>
-          <a class="btn" href="#lab"><span data-lang="en">Try Brand Tool</span><span data-lang="zh">体验品牌工具</span></a>
+        <div class="hero-actions">
+          <a class="btn primary hero-btn reveal delay-4" href="mailto:sukky147@gmail.com"><span data-lang="en">Book a Free Diagnosis</span><span data-lang="zh">预约免费品牌诊断</span></a>
+          <a class="btn hero-btn reveal delay-5" href="#lab"><span data-lang="en">Try Brand Tool</span><span data-lang="zh">体验品牌工具</span></a>
         </div>
       </div>
 
       <div class="hero-right">
-        <div class="studio-preview reveal delay-2" aria-label="Animated website preview">
+        <div class="studio-preview reveal" style="transition-delay:.5s" aria-label="Animated website preview">
 
         <!-- Main browser mockup -->
         <div class="hero-mockup tilt">
@@ -3167,6 +3213,13 @@ document.querySelectorAll("[data-count]").forEach(el => metricObserver.observe(e
 
 function initTilt(card) {
   const isHero = card.classList.contains('hero-mockup');
+  const floatAnim = card.style.animation || getComputedStyle(card).animation;
+
+  card.addEventListener("pointerenter", () => {
+    if (matchMedia("(max-width: 920px)").matches) return;
+    card.style.animation = 'none';
+  });
+
   card.addEventListener("pointermove", e => {
     if (matchMedia("(max-width: 920px)").matches) return;
     const rect = card.getBoundingClientRect();
@@ -3175,8 +3228,10 @@ function initTilt(card) {
     const base = isHero ? 'translate(-50%, -50%) ' : '';
     card.style.transform = `${base}perspective(900px) rotateX(${y * -6}deg) rotateY(${x * 8}deg)`;
   });
+
   card.addEventListener("pointerleave", () => {
     card.style.transform = isHero ? 'translate(-50%, -50%)' : '';
+    card.style.animation = '';
   });
 }
 
