@@ -1473,38 +1473,203 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 .section-dark .pricing-card.featured .pricing-cta { background: var(--accent); color: var(--ink); border-color: var(--accent); }
 .section-dark .pricing-recommended { background: var(--accent); color: var(--ink); border-color: var(--accent); }
 
-.ai-lab {
+/* ── AI LAB ── */
+.lab-wrap {
   display: grid;
-  grid-template-columns: .85fr 1.15fr;
-  gap: 14px;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+  margin-top: 48px;
 }
 
-.prompt-list { display: grid; gap: 10px; }
-.prompt-item {
+.lab-input-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-line);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.lab-field-label {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--dark-muted);
+  margin-bottom: 4px;
+}
+
+.lab-categories {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.lab-cat {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--dark-line);
+  background: transparent;
+  color: var(--dark-text);
+  font-family: var(--font);
+  font-size: var(--fs-sm);
+  cursor: none;
+  transition: all .15s ease;
+  text-align: center;
+}
+
+.lab-cat:hover { border-color: rgba(255,248,75,.4); color: var(--dark-ink); }
+.lab-cat.active { background: rgba(255,248,75,.1); border-color: var(--accent); color: var(--accent); }
+
+.lab-input {
   width: 100%;
-  text-align: left;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--text);
-  cursor: pointer;
-  padding: 15px;
-  transition: border-color .18s ease, transform .18s ease, color .18s ease;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--dark-line);
+  background: rgba(255,255,255,.04);
+  color: var(--dark-ink);
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  outline: none;
+  transition: border-color .15s ease;
 }
 
-.prompt-item:hover, .prompt-item.active { border-color: var(--accent); transform: translateY(-2px); color: var(--ink); }
-.prompt-item strong { display: block; color: var(--ink); margin-bottom: 4px; }
+.lab-input:focus { border-color: rgba(255,248,75,.5); }
+.lab-input::placeholder { color: var(--dark-muted); }
 
-.output-card {
-  min-height: 390px;
+.lab-generate-btn { width: 100%; justify-content: center; margin-top: 4px; }
+
+.lab-note {
+  font-size: 11px;
+  color: var(--dark-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.lab-output-panel {
+  background: var(--dark-surface);
+  border: 1px solid var(--dark-line);
+  border-radius: 16px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.lab-output-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--dark-muted);
+  font-size: var(--fs-base);
+  padding: 48px;
+  text-align: center;
+}
+
+.lab-empty-icon { font-size: 32px; opacity: .3; }
+
+.lab-output-result {
   display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 1;
+}
+
+.lab-col {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
 }
 
-.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
-.swatch { width: 48px; height: 48px; border-radius: 9px; border: 1px solid rgba(255,255,255,.45); box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
-.output-title { font-size: clamp(34px, 4.6vw, 58px); line-height: .95; letter-spacing: -.06em; margin: 0; }
-.output-copy { color: var(--text); margin: 0; }
+.lab-col:first-child { border-right: 1px solid var(--dark-line); }
+
+.lab-col-label {
+  font-family: var(--mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.lab-output-block { display: flex; flex-direction: column; gap: 6px; }
+
+.lab-block-label {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--dark-muted);
+  letter-spacing: .04em;
+}
+
+.lab-block-text {
+  font-size: var(--fs-sm);
+  color: var(--dark-text);
+  line-height: 1.55;
+}
+
+.lab-tagline {
+  font-size: var(--fs-base);
+  color: var(--dark-ink);
+  font-weight: 500;
+  letter-spacing: var(--ls-heading);
+}
+
+.lab-gap { color: rgba(255,255,255,.5); font-style: italic; }
+
+.lab-swatches { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+.lab-swatch-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+
+.lab-swatch {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.lab-swatch-hex {
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--dark-muted);
+  white-space: nowrap;
+}
+
+.lab-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.lab-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--mono);
+  border: 1px solid var(--dark-line);
+  color: var(--dark-text);
+  background: rgba(255,255,255,.04);
+}
+
+.lab-loading {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--dark-muted);
+  font-size: var(--fs-sm);
+}
+
+.lab-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--dark-line);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
 
 .timeline {
   display: grid;
@@ -2139,7 +2304,9 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .hero-right { min-height: 420px; }
   .work-grid { grid-template-columns: 1fr 1fr; }
   .work-grid article[style*="span 3"], .work-grid article[style*="span 2"] { grid-column: span 1 !important; }
-  .ai-lab { grid-template-columns: 1fr; }
+  .lab-wrap { grid-template-columns: 1fr; }
+  .lab-output-result { grid-template-columns: 1fr; }
+  .lab-col:first-child { border-right: none; border-bottom: 1px solid var(--dark-line); }
   .studio-preview { min-height: 420px; }
   .section-head { display: block; }
   .section-lede { margin-top: 16px; }
@@ -2497,20 +2664,79 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
       <div class="section-head reveal">
         <div class="eyebrow">AI Lab</div>
         <h2><span data-lang="en">Your brand, trained to produce.</span><span data-lang="zh">你的品牌，训练成内容引擎。</span></h2>
-        <p class="section-lede"><span data-lang="en">We don't hand you a prompt sheet. We build a content system trained on your brand voice product copy, SEO articles, email sequences. Click a brand brief to see it in action.</span><span data-lang="zh">我们不是给你几个提示词。我们用你的品牌语气训练一套内容系统——产品文案、SEO 文章、邮件序列。点击 brief 查看实时生成效果。</span></p>
+        <p class="section-lede"><span data-lang="en">Pick a category, enter a product name, and see how we'd position it — copy and design direction, generated instantly.</span><span data-lang="zh">选择品类，输入产品名称，看我们如何定位它——文案和设计方向，即时生成。</span></p>
       </div>
-      <div class="ai-lab">
-        <div class="prompt-list reveal">
-          <button class="prompt-item active" type="button" data-ai="aura"><strong>Aura Skincare</strong><span data-lang="en">Clean beauty, science backed, calm luxury.</span><span data-lang="zh">干净护肤、科学背书、安静高级。</span></button>
-          <button class="prompt-item" type="button" data-ai="cedar"><strong>CedarHome</strong><span data-lang="en">Warm homeware for urban professionals.</span><span data-lang="zh">面向都市白领的温暖家居品牌。</span></button>
-          <button class="prompt-item" type="button" data-ai="nova"><strong>NovaTech</strong><span data-lang="en">Portable tech, travel creators, high clarity.</span><span data-lang="zh">便携科技、旅行创作者、清晰高效。</span></button>
+      <div class="lab-wrap reveal delay-1">
+        <!-- Left: input panel -->
+        <div class="lab-input-panel">
+          <div class="lab-field-label"><span data-lang="en">Category</span><span data-lang="zh">品类</span></div>
+          <div class="lab-categories">
+            <button class="lab-cat active" data-cat="skincare"><span data-lang="en">Skincare</span><span data-lang="zh">护肤</span></button>
+            <button class="lab-cat" data-cat="pet"><span data-lang="en">Pet</span><span data-lang="zh">宠物</span></button>
+            <button class="lab-cat" data-cat="homeware"><span data-lang="en">Homeware</span><span data-lang="zh">家居</span></button>
+            <button class="lab-cat" data-cat="apparel"><span data-lang="en">Apparel</span><span data-lang="zh">服装</span></button>
+          </div>
+          <div class="lab-field-label" style="margin-top:20px"><span data-lang="en">Product name</span><span data-lang="zh">产品名称</span></div>
+          <input class="lab-input" id="labProductInput" type="text" placeholder="e.g. Vitamin C Serum" maxlength="60">
+          <button class="btn primary lab-generate-btn" id="labGenerateBtn" type="button">
+            <span data-lang="en">Generate</span><span data-lang="zh">生成</span>
+            <span class="lab-btn-arrow">→</span>
+          </button>
+          <div class="lab-note"><span data-lang="en">Powered by Claude · Results are illustrative</span><span data-lang="zh">由 Claude 驱动 · 结果仅供参考</span></div>
         </div>
-        <article class="glass-card output-card reveal delay-1" id="aiOutput">
-          <div class="swatches" id="swatches"></div>
-          <h3 class="output-title" id="outputTitle">Quiet confidence, botanical clarity.</h3>
-          <p class="output-copy" id="outputCopy">Aura speaks with calm precision. The system pairs warm sand, deep earth, and sage to feel natural without looking generic.</p>
-          <div class="work-meta" id="outputTags"></div>
-        </article>
+        <!-- Right: output panel -->
+        <div class="lab-output-panel" id="labOutput">
+          <div class="lab-output-empty" id="labEmpty">
+            <div class="lab-empty-icon">✦</div>
+            <div><span data-lang="en">Enter a product above to generate your brand brief.</span><span data-lang="zh">在左侧输入产品名称，生成品牌 brief。</span></div>
+          </div>
+          <div class="lab-output-result" id="labResult" style="display:none">
+            <!-- Copy column -->
+            <div class="lab-col">
+              <div class="lab-col-label"><span data-lang="en">Copy</span><span data-lang="zh">文案</span></div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">Product Description (EN)</div>
+                <div class="lab-block-text" id="labDescEN"></div>
+              </div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">产品描述（中文）</div>
+                <div class="lab-block-text" id="labDescZH"></div>
+              </div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">SEO Title</div>
+                <div class="lab-block-text" id="labSEO"></div>
+              </div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">Brand Tagline</div>
+                <div class="lab-block-text lab-tagline" id="labTagline"></div>
+              </div>
+            </div>
+            <!-- Design column -->
+            <div class="lab-col">
+              <div class="lab-col-label"><span data-lang="en">Design Direction</span><span data-lang="zh">设计方向</span></div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">Color Palette</div>
+                <div class="lab-swatches" id="labSwatches"></div>
+              </div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">Typography</div>
+                <div class="lab-block-text" id="labTypo"></div>
+              </div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">Brand Tone</div>
+                <div class="lab-pills" id="labTone"></div>
+              </div>
+              <div class="lab-output-block">
+                <div class="lab-block-label">Competitor Gap</div>
+                <div class="lab-block-text lab-gap" id="labGap"></div>
+              </div>
+            </div>
+          </div>
+          <div class="lab-loading" id="labLoading" style="display:none">
+            <div class="lab-spinner"></div>
+            <span><span data-lang="en">Generating your brand brief…</span><span data-lang="zh">正在生成品牌 brief…</span></span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -2773,7 +2999,6 @@ function setLang(lang) {
   root.lang = lang === "zh" ? "zh-CN" : "en";
   langEn.classList.toggle("active", lang === "en");
   langZh.classList.toggle("active", lang === "zh");
-  updateAiOutput(document.querySelector(".prompt-item.active").dataset.ai);
 }
 
 langEn.addEventListener("click", () => setLang("en"));
@@ -2813,53 +3038,101 @@ document.querySelectorAll(".tab").forEach(tab => {
   });
 });
 
-const aiContent = {
-  aura: {
-    title: { en: "Quiet confidence, botanical clarity.", zh: "安静自信，植物感清晰。" },
-    copy: {
-      en: "Aura speaks with calm precision. The system pairs warm sand, deep earth, and sage to feel natural without looking generic.",
-      zh: "Aura 用克制而精准的语气表达。暖砂、深土和鼠尾草绿让品牌自然但不落俗套。"
-    },
+/* ── AI LAB ── */
+const labPresets = {
+  skincare: {
+    descEN: "A clean beauty ritual rooted in science. This serum pairs active botanicals with clinically tested formulas to deliver visible results without compromise.",
+    descZH: "源于科学的干净护肤仪式。这款精华将活性植物成分与临床验证配方结合，无妥协地实现可见效果。",
+    seoTitle: "Vitamin C Brightening Serum | Science-Backed Skincare",
+    tagline: "Science you can feel. Results you can see.",
     colors: ["#e8ddd4", "#2d2926", "#8fb5a0", "#f7f4f0"],
-    tags: ["clean beauty", "premium calm", "SEO PDP"]
+    typography: "Serif headings for authority, clean sans-serif body. Think editorial magazine meets apothecary.",
+    tone: ["Clean", "Science-backed", "Calm luxury"],
+    gap: "Most skincare brands lead with ingredients — yours should lead with transformation and emotional trust."
   },
-  cedar: {
-    title: { en: "Home should feel lived-in, not staged.", zh: "家应该像生活，不像样板间。" },
-    copy: {
-      en: "CedarHome uses tactile neutrals, editorial spacing, and plain-spoken copy to make each product feel useful, warm, and considered.",
-      zh: "CedarHome 用有触感的中性色、杂志感留白和直接的文案，让每个产品显得温暖、实用、被认真选择。"
-    },
-    colors: ["#d8d0bf", "#665745", "#146c63", "#fff8ec"],
-    tags: ["homeware", "editorial UI", "bundle logic"]
+  pet: {
+    descEN: "Premium outdoor gear built for dogs who love adventure. Durable, thoughtfully designed, and made for the bond between pets and their people.",
+    descZH: "为热爱冒险的狗狗打造的高端户外装备。耐用、用心设计，承载人与宠物之间的情感纽带。",
+    seoTitle: "Premium Dog Outdoor Gear | Built for Adventure",
+    tagline: "For dogs who go everywhere you do.",
+    colors: ["#f4e4d0", "#1a3a2a", "#e87040", "#f9f6f0"],
+    typography: "Bold rounded sans-serif for personality. Playful but never childish — this is a premium lifestyle brand.",
+    tone: ["Playful", "Premium", "Adventurous"],
+    gap: "Most pet brands are either too cute or too clinical. Yours should feel like a lifestyle brand people are proud to be seen with."
   },
-  nova: {
-    title: { en: "Technical clarity for people in motion.", zh: "给移动创作者的技术清晰感。" },
-    copy: {
-      en: "NovaTech gets a sharper rhythm: high-contrast UI, crisp feature modules, and multilingual copy that sells specs without sounding cold.",
-      zh: "NovaTech 需要更利落的节奏：高对比界面、清晰功能模块，以及不冰冷的多语言参数文案。"
-    },
-    colors: ["#d9e6ff", "#111827", "#335cff", "#7ee4c9"],
-    tags: ["consumer tech", "6 languages", "SKU engine"]
+  homeware: {
+    descEN: "Thoughtfully crafted homewares for the way modern people actually live. Each piece is designed to feel warm, useful, and quietly beautiful.",
+    descZH: "为现代人真实生活方式打造的用心家居。每件产品都设计得温暖、实用、静静地美着。",
+    seoTitle: "Modern Homeware | Designed for Real Living",
+    tagline: "Home should feel lived-in, not staged.",
+    colors: ["#d8d0bf", "#3d3530", "#146c63", "#fff8ec"],
+    typography: "Editorial serif for headings, generous line height. Inspired by Kinfolk — substance over decoration.",
+    tone: ["Warm", "Editorial", "Considered"],
+    gap: "Most homeware brands sell objects. Yours should sell the feeling of a well-lived home."
+  },
+  apparel: {
+    descEN: "Minimal wardrobe essentials designed to outlast trends. Clean cuts, quality fabrics, and a considered color palette that works across every occasion.",
+    descZH: "经得住潮流的极简衣橱基础款。干净的剪裁、优质面料和经过考量的配色，适合每一个场合。",
+    seoTitle: "Minimalist Essentials | Apparel Built to Last",
+    tagline: "Less, but better. Every single time.",
+    colors: ["#f2ede8", "#1c1c1c", "#8c7355", "#d4c4b0"],
+    typography: "Ultra-light sans-serif, wide tracking. Fashion-forward but approachable — think COS meets Everlane.",
+    tone: ["Minimal", "Timeless", "Intentional"],
+    gap: "Most apparel brands compete on trend. Yours should compete on conviction — customers who buy once, buy forever."
   }
 };
 
-function updateAiOutput(key) {
-  const lang = root.dataset.currentLang || "en";
-  const data = aiContent[key];
-  document.getElementById("outputTitle").textContent = data.title[lang];
-  document.getElementById("outputCopy").textContent = data.copy[lang];
-  document.getElementById("swatches").innerHTML = data.colors.map(color => `<span class="swatch" style="background:${color}"></span>`).join("");
-  document.getElementById("outputTags").innerHTML = data.tags.map(tag => `<span class="pill">${tag}</span>`).join("");
-}
+let selectedCat = "skincare";
 
-document.querySelectorAll(".prompt-item").forEach(item => {
-  item.addEventListener("click", () => {
-    document.querySelectorAll(".prompt-item").forEach(prompt => prompt.classList.remove("active"));
-    item.classList.add("active");
-    updateAiOutput(item.dataset.ai);
+document.querySelectorAll(".lab-cat").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".lab-cat").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    selectedCat = btn.dataset.cat;
   });
 });
-updateAiOutput("aura");
+
+document.getElementById("labGenerateBtn").addEventListener("click", runLabGenerate);
+document.getElementById("labProductInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") runLabGenerate();
+});
+
+function runLabGenerate() {
+  const product = document.getElementById("labProductInput").value.trim();
+  const labEmpty = document.getElementById("labEmpty");
+  const labResult = document.getElementById("labResult");
+  const labLoading = document.getElementById("labLoading");
+
+  labEmpty.style.display = "none";
+  labResult.style.display = "none";
+  labLoading.style.display = "flex";
+
+  setTimeout(() => {
+    const result = labPresets[selectedCat];
+
+    document.getElementById("labDescEN").textContent = result.descEN;
+    document.getElementById("labDescZH").textContent = result.descZH;
+    document.getElementById("labSEO").textContent = product
+      ? result.seoTitle.replace(/^[^|]+/, product + " | ")
+      : result.seoTitle;
+    document.getElementById("labTagline").textContent = result.tagline;
+    document.getElementById("labTypo").textContent = result.typography;
+
+    document.getElementById("labSwatches").innerHTML = result.colors.map(hex =>
+      `<div class="lab-swatch-wrap"><div class="lab-swatch" style="background:${hex}"></div><div class="lab-swatch-hex">${hex}</div></div>`
+    ).join("");
+
+    document.getElementById("labTone").innerHTML = result.tone.map(t =>
+      `<span class="lab-pill">${t}</span>`
+    ).join("");
+
+    document.getElementById("labGap").textContent = result.gap;
+
+    labLoading.style.display = "none";
+    labResult.style.display = "grid";
+  }, 800);
+}
+
 
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
