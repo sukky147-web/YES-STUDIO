@@ -76,7 +76,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: #0A0A0A; }
+html { scroll-behavior: smooth; background: #0A0A0A; overflow-x: hidden; }
 body {
   margin: 0;
   background: var(--bg);
@@ -134,7 +134,6 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   transition: transform .35s cubic-bezier(.22,1,.36,1);
 }
 
-.nav.hide { transform: translateY(-100%); }
 
 /* top state fully transparent on desktop, solid on mobile */
 .nav-inner {
@@ -154,9 +153,35 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 }
 
 @media (max-width: 920px) {
+  /* DARK MODE (default — dark section) */
   .nav-inner {
-    background: rgba(10,10,10,.96) !important;
     padding: 0 20px;
+    background: rgba(10,10,10,.96);
+  }
+  .nav .brand { color: #fff; }
+  .nav .nav-link { color: rgba(255,255,255,.75); }
+  .nav .lang-opt { color: rgba(255,255,255,.45); }
+  .nav .lang-opt.active { color: #fff; background: rgba(255,255,255,.12); }
+  .nav .lang-toggle { border-color: rgba(255,255,255,.18); background: rgba(255,255,255,.06); }
+  .menu-btn {
+    border-color: rgba(255,255,255,.2);
+    background: rgba(255,255,255,.06);
+    color: #fff;
+  }
+
+  /* LIGHT MODE (nav-light — light section) */
+  .nav.nav-light .nav-inner {
+    background: rgba(255,255,255,.96);
+  }
+  .nav.nav-light .brand { color: var(--ink); }
+  .nav.nav-light .nav-link { color: var(--text); }
+  .nav.nav-light .lang-opt { color: var(--muted); }
+  .nav.nav-light .lang-opt.active { color: var(--ink); background: var(--surface-2); }
+  .nav.nav-light .lang-toggle { border-color: var(--line); background: var(--surface); }
+  .nav.nav-light .menu-btn {
+    border-color: var(--line);
+    background: transparent;
+    color: var(--ink);
   }
 }
 
@@ -234,10 +259,19 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 .nav-link:hover { color: var(--dark-ink); background: rgba(255,255,255,.07); }
 
+/* dark mode defaults (transparent nav on dark hero) */
+.nav .brand { color: var(--dark-ink); }
+.nav .nav-link { color: var(--dark-text); }
+.nav .nav-cta, .nav .contact-btn { color: var(--dark-ink); border-color: var(--dark-line); }
+.nav .lang-opt { color: var(--dark-muted); }
+.nav .lang-opt.active { color: var(--dark-ink); }
+
 /* light mode overrides (for scrolled pill on light sections) */
 .nav.nav-light .brand { color: var(--ink); }
 .nav.nav-light .nav-link { color: var(--text); }
 .nav.nav-light .nav-link:hover { color: var(--ink); background: var(--surface-2); }
+.nav.nav-light .nav-cta, .nav.nav-light .contact-btn { color: var(--ink); border-color: var(--line); }
+.nav.nav-light .lang-opt { color: var(--muted); }
 
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 
@@ -919,7 +953,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 @keyframes marquee { to { transform: translateX(-50%); } }
 
-.section { padding: 96px 0; }
+.section { padding: clamp(48px, 8vw, 96px) 0; }
 
 /* ── LEFT ALIGNED HEADER ── */
 .section-head {
@@ -1044,6 +1078,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   width: 22px;
   height: 22px;
   object-fit: contain;
+  filter: invert(1);
 }
 
 .tag {
@@ -1074,9 +1109,12 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   height: 28vw;
   min-height: 280px;
   max-height: 480px;
+  width: 100%;
 }
 
 .visual-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1165,7 +1203,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 /* ── STATS SECTION ── */
 .stats-section {
   background: var(--bg);
-  padding: 80px 0 72px;
+  padding: clamp(48px, 7vw, 80px) 0;
 }
 
 .stats-head {
@@ -1228,7 +1266,7 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 /* ── PAIN / ABOUT SECTION ── */
 .pain-section {
   background: var(--bg);
-  padding: 96px 0;
+  padding: clamp(48px, 8vw, 96px) 0;
 }
 
 .pain-grid {
@@ -1397,6 +1435,8 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 @media (max-width: 920px) {
   .pain-grid { grid-template-columns: 1fr; gap: 48px; }
+  .pain-left, .pain-right { width: 100%; min-width: 0; }
+  .perf-card { width: 100%; }
 }
 .section-dark {
   background: var(--dark-bg);
@@ -1937,18 +1977,19 @@ main {
 .testimonial-track {
   position: relative;
   overflow: hidden;
-  min-height: 180px;
+  transition: height .35s cubic-bezier(.22,1,.36,1);
 }
 
 .testimonial-slide {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   opacity: 0;
   pointer-events: none;
-  transform: translateX(0);
 }
 
 .testimonial-slide.active {
@@ -2094,8 +2135,6 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .nav-links .nav-link:hover { color: var(--dark-ink) !important; background: rgba(255,255,255,.07) !important; }
   .nav-link { padding: 13px 14px; }
   .nav-actions .cta { display: none; }
-  /* menu-btn light mode fix */
-  .nav.nav-light .menu-btn { border-color: var(--line); background: rgba(14,22,6,.06); color: var(--ink); }
   .hero { min-height: auto; grid-template-columns: 1fr; }
   .hero-left { padding: 54px 20px 40px; max-width: 100%; justify-content: flex-start; }
   .hero-right { min-height: 420px; }
@@ -2117,7 +2156,6 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .btn, .hero-actions .btn, .final-actions .btn { width: 100%; justify-content: center; }
   .mini-metrics { grid-template-columns: 1fr 1fr; }
   .card-grid, .service-panel, .timeline { grid-template-columns: 1fr; }
-  .section { padding: 70px 0; }
   .studio-preview { min-height: 430px; }
   .floating-note { width: calc(100% - 32px); }
   .device-grid { grid-template-columns: 1fr; }
@@ -2355,45 +2393,45 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
 
       <div class="service-panel active" id="launch">
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-strategy.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-strategy.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Brand direction</span><span data-lang="zh">品牌方向</span></h3><p class="card-copy"><span data-lang="en">Color palette, typography, tone of voice the foundation your store is built on. No full VI, but enough to look deliberate.</span><span data-lang="zh">配色、字体、品牌语气——你的店铺赖以建立的基础。不是完整 VI，但足够让人感觉是认真做的。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-build.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-build.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Template-based custom build</span><span data-lang="zh">模板定制建站</span></h3><p class="card-copy"><span data-lang="en">Webflow or Framer Customized, not out of the box. Homepage + 3–5 subpages, mobile ready, bilingual.</span><span data-lang="zh">Webflow 或 Framer 定制，不是开箱即用的模板。首页 + 3–5 子页，移动适配，中英双语。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-launch.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-launch.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Basic SEO + bilingual copy</span><span data-lang="zh">基础 SEO + 双语文案</span></h3><p class="card-copy"><span data-lang="en">Page titles, meta descriptions, and English + Chinese copy So your store is findable and readable from day one.</span><span data-lang="zh">页面标题、元描述、中英文文案——让你的店铺从第一天就可被搜索、可被读懂。</span></p></div>
         </article>
       </div>
 
       <div class="service-panel" id="brand">
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-identity.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-identity.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Full VI system</span><span data-lang="zh">完整 VI 系统</span></h3><p class="card-copy"><span data-lang="en">Logo refinement or redesign, color system, typography, and a brand guideline your team can actually use.</span><span data-lang="zh">Logo 优化或重新设计、配色系统、字体规范，以及团队真正能用上的品牌规范。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-ux.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-ux.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Custom Shopify or Next.js build</span><span data-lang="zh">定制 Shopify 或 Next.js</span></h3><p class="card-copy"><span data-lang="en">A real store, not a theme. Built for conversion Sharper hierarchy, trust modules, and clean checkout path.</span><span data-lang="zh">真正的定制店铺，不是套主题。为转化而建——清晰层级、信任模块、流畅购买路径。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-content.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-content.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">AI product copy · first 50 SKUs</span><span data-lang="zh">AI 产品文案 · 前 50 SKU</span></h3><p class="card-copy"><span data-lang="en">Product descriptions trained on your brand voice, SEO structured, bilingual ready. Delivered with the store.</span><span data-lang="zh">用你的品牌语气训练的产品描述，SEO 结构化，支持双语。随店一起交付。</span></p></div>
         </article>
       </div>
 
       <div class="service-panel" id="ai">
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-sku.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-sku.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Brand voice training</span><span data-lang="zh">品牌语气训练</span></h3><p class="card-copy"><span data-lang="en">We turn your brand positioning into a reusable content system Not a ChatGPT prompt. A real trained voice.</span><span data-lang="zh">我们把你的品牌定位训练成可复用的内容系统——不是 ChatGPT 提示词，是真正训练好的语气。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-seo.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-seo.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">SEO content matrix</span><span data-lang="zh">SEO 内容矩阵</span></h3><p class="card-copy"><span data-lang="en">Keyword clusters, blog briefs, internal link structure, and a monthly content workflow your team can run.</span><span data-lang="zh">关键词分组、博客 brief、内链结构，以及团队能自主执行的月度内容工作流。</span></p></div>
         </article>
         <article class="glass-card service-card tilt">
-          <div class="service-card-icon"><img src="assets/icons/icon-ops.svg" alt=""></div>
+          <div class="service-card-icon"><img src="assets/logos/icon-ops.svg" alt=""></div>
           <div><h3 class="card-title"><span data-lang="en">Email template library</span><span data-lang="zh">邮件模板库</span></h3><p class="card-copy"><span data-lang="en">Welcome sequences, abandon cart, post-purchase, and re-engagement All written in your brand voice, bilingual.</span><span data-lang="zh">欢迎序列、弃购挽回、售后跟进和唤回邮件——全部用你的品牌语气撰写，支持双语。</span></p></div>
         </article>
       </div>
@@ -2508,8 +2546,8 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
             <div class="testimonial-author">
               <div class="testimonial-avatar"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.11959e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 -6.99382e-07L6.59 1.41L12.17 7L7.86805e-07 7L6.11959e-07 9Z" fill="#FFF84B"/></svg></div>
               <div>
-                <div class="testimonial-name">Name Surname</div>
-                <div class="testimonial-role">Position, Company Name</div>
+                <div class="testimonial-name">Sarah Chen</div>
+                <div class="testimonial-role">Founder, Aura Skincare</div>
               </div>
             </div>
           </div>
@@ -2519,8 +2557,8 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
             <div class="testimonial-author">
               <div class="testimonial-avatar"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.11959e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 -6.99382e-07L6.59 1.41L12.17 7L7.86805e-07 7L6.11959e-07 9Z" fill="#FFF84B"/></svg></div>
               <div>
-                <div class="testimonial-name">Name Surname</div>
-                <div class="testimonial-role">Position, Company Name</div>
+                <div class="testimonial-name">Marcus Liu</div>
+                <div class="testimonial-role">Head of E-commerce, CedarHome</div>
               </div>
             </div>
           </div>
@@ -2530,8 +2568,8 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
             <div class="testimonial-author">
               <div class="testimonial-avatar"><svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.11959e-07 9L12.17 9L6.58 14.59L8 16L16 8L8 -6.99382e-07L6.59 1.41L12.17 7L7.86805e-07 7L6.11959e-07 9Z" fill="#FFF84B"/></svg></div>
               <div>
-                <div class="testimonial-name">Name Surname</div>
-                <div class="testimonial-role">Position, Company Name</div>
+                <div class="testimonial-name">Jenny Park</div>
+                <div class="testimonial-role">CEO, CuteMart</div>
               </div>
             </div>
           </div>
@@ -2949,11 +2987,6 @@ function updateNavMode() {
 window.addEventListener("scroll", () => {
   const cur = window.scrollY;
   navEl.classList.toggle("scrolled", cur > SCROLL_THRESHOLD);
-  if (cur > 200) {
-    navEl.classList.toggle("hide", cur > lastScroll);
-  } else {
-    navEl.classList.remove("hide");
-  }
   lastScroll = cur;
   updateNavMode();
 }, { passive: true });
@@ -3015,11 +3048,16 @@ let tBusy = false;
 function setTrackHeight() {
   const active = tSlideEls[tCurrent];
   active.style.position = "relative";
-  tTrack.style.height = active.offsetHeight + "px";
+  const h = active.offsetHeight;
   active.style.position = "";
+  if (h > 0) tTrack.style.height = h + "px";
 }
 
-setTrackHeight();
+// Run after fonts load for accurate height
+document.fonts.ready.then(() => {
+  setTrackHeight();
+});
+setTimeout(setTrackHeight, 300);
 window.addEventListener("resize", setTrackHeight, { passive: true });
 
 function goTestimonial(dir) {
