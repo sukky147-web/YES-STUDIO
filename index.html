@@ -1177,21 +1177,22 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
     display: flex;
     flex-direction: column;
   }
+  /* Let the image determine the container height naturally */
   .work-card .visual {
     border-radius: 0 !important;
     flex-shrink: 0;
-    height: 52vw;        /* explicit height so absolute-positioned img fills it */
-    min-height: 200px;
-    max-height: 360px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
     width: 100%;
   }
+  /* Switch from absolute to static so the image flows in the document */
   .work-card .visual-img {
-    position: absolute;
-    inset: 0;
+    position: static;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+    height: auto;
+    display: block;
+    object-fit: unset;
   }
   .work-card .work-body {
     position: static;
