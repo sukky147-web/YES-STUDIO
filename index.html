@@ -76,7 +76,7 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; background: #0A0A0A; overflow-x: hidden; }
+html { scroll-behavior: smooth; background: #0A0A0A; }
 body {
   margin: 0;
   background: var(--bg);
@@ -84,8 +84,11 @@ body {
   font-family: var(--font);
   font-size: 16px;
   line-height: 1.55;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* overflow-x intentionally removed from html+body: setting it on both
+     causes Chrome/Safari to lose track of the scroll container, producing
+     the "skip first scroll after interaction" bug. Clipping is handled
+     by main/footer with overflow-x:clip instead. */
 }
 
 body::before {
@@ -1128,6 +1131,32 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
   transition: transform .4s ease;
 }
 
+/* Graceful degradation when image fails to load */
+.visual-img[src=""] ,
+.visual-img:not([src]) {
+  display: none;
+}
+
+/* Hide broken-image icon and alt text, show a subtle pattern instead */
+.visual-img::after {
+  content: none;
+}
+
+/* When img fails, the .visual background shows — make it more intentional */
+.visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 12px,
+    rgba(0,0,0,.03) 12px,
+    rgba(0,0,0,.03) 13px
+  );
+  pointer-events: none;
+}
+
 .work-card:hover .visual-img { transform: scale(1.04); }
 
 /* work-body hidden by default on desktop, slides up on hover */
@@ -1156,12 +1185,25 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
 
 /* tablet + mobile: always show text, no absolute positioning */
 @media (max-width: 920px) {
-  .work-card { overflow: visible; }
-  .visual { border-radius: 14px 14px 0 0 !important; }
-  .work-body {
+  .work-card {
+    overflow: hidden; /* keep clipping so border-radius works */
+    display: flex;
+    flex-direction: column;
+  }
+  .work-card .visual {
+    border-radius: 0 !important; /* card clips the corners itself */
+    flex-shrink: 0;
+  }
+  .work-card .work-body {
     position: static;
     transform: none !important;
     transition: none;
+    border-radius: 0;
+    padding: 16px 18px 20px;
+    background: var(--surface);
+    flex: 1;
+    width: 100%;        /* override align-items:flex-start shrink from .glass-card */
+    align-self: stretch;
   }
 }
 
@@ -1850,10 +1892,12 @@ footer {
   padding: 0;
   position: sticky;
   bottom: 0;
-  z-index: 1;
+  /* z-index removed: sticky + z-index creates a stacking context that
+     interrupts the GPU compositing scroll path in some browsers. */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
 }
 
 .footer-inner-wrap {
@@ -1871,6 +1915,7 @@ main {
   z-index: 2;
   background: var(--bg);
   min-height: 100vh;
+  overflow-x: clip; /* clip ≠ hidden: doesn't create a scroll container */
 }
 
 .footer-wordmark {
@@ -2350,8 +2395,11 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .hero { min-height: auto; grid-template-columns: 1fr; }
   .hero-left { padding: 54px 20px 40px; max-width: 100%; justify-content: flex-start; }
   .hero-right { min-height: 420px; }
-  .work-grid { grid-template-columns: 1fr 1fr; }
-  .work-grid article[style*="span 3"], .work-grid article[style*="span 2"] { grid-column: span 1 !important; }
+  .work-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  /* Override all inline span values so cards fit the 2-col grid */
+  .work-grid article { grid-column: span 1 !important; }
+  /* Make visuals taller on tablet so images read well */
+  .work-grid .visual { height: 38vw; min-height: 200px; max-height: 340px; }
   .lab-wrap { grid-template-columns: 1fr; }
   .lab-output-result { grid-template-columns: 1fr; }
   .lab-col:first-child { border-right: none; border-bottom: 1px solid var(--dark-line); }
@@ -2374,8 +2422,10 @@ html[data-current-lang="en"] [data-lang-block="en"], html[data-current-lang="zh"
   .floating-note { width: calc(100% - 32px); }
   .device-grid { grid-template-columns: 1fr; }
   .device-panel:last-child { min-height: 84px; }
+  /* Single column on small phones */
+  .work-grid { grid-template-columns: 1fr; gap: 14px; }
   .work-card { min-height: 0; }
-  .visual { min-height: 220px; }
+  .work-grid .visual { height: 56vw; min-height: 220px; max-height: 320px; }
 }
 </style>
 </head>
@@ -3181,6 +3231,17 @@ function runLabGenerate() {
   }, 800);
 }
 
+
+document.querySelectorAll(".visual-img").forEach(img => {
+  img.addEventListener("error", () => {
+    const visual = img.closest(".visual");
+    if (visual) {
+      visual.style.minHeight = "120px";
+      visual.style.height = "120px";
+      img.style.display = "none";
+    }
+  });
+});
 
 const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
