@@ -1176,6 +1176,11 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    gap: 0;               /* kill glass-card's gap: 51px */
+    min-height: 0;        /* kill glass-card's min-height: 250px */
+    padding: 0;           /* kill glass-card's padding: 24px */
+    align-items: stretch; /* kill glass-card's align-items: flex-start */
+    justify-content: flex-start;
   }
   .work-card .visual {
     border-radius: 0 !important;
@@ -1186,7 +1191,6 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
     width: 100%;
     overflow: hidden;
   }
-  /* Keep absolute+cover so image always fills the fixed-height container */
   .work-card .visual-img {
     position: absolute;
     inset: 0;
@@ -1202,7 +1206,6 @@ a, button, [role="button"], .tab, .pricing-cta, .testimonial-btn,
     border-radius: 0;
     padding: 16px 18px 20px;
     background: var(--surface);
-    flex: 1;
     width: 100%;
     align-self: stretch;
   }
